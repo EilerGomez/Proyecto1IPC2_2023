@@ -1,0 +1,8 @@
+
+        {
+            "codigo" : 1,
+            "nombre" : "Producto 1",
+            "costo" : 13.44,
+            "precio" : 15,
+            "existencias" : 125
+        }
