@@ -141,6 +141,7 @@ public class cargadatosServlet extends HttpServlet {
             //System.out.println(codigo + " \n " + age + "\n" + costo + "\n" + existencias + "\n" + precio);
             //Conexion.guardarCatalogos(id, nombreProducto, costo, existencias, precio);
             Conexion.guardarCatalogos(id, nombre, costo, existencia, precio);
+            Conexion.guardarCatalogosDañados(id, 0);
         }
     }
 

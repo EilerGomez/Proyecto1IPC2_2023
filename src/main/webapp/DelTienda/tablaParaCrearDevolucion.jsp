@@ -49,7 +49,7 @@
                                     <th scope="col"><%=Conexion.rs.getString(6)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(7)%></th>
                                     <td>
-                                        <a href="servletNuevaDevolucion?idEnvio=<%=Conexion.rs.getString(1)%>&idDevolucion=0">
+                                        <a href="servletNuevaDevolucion?idEnvio=<%=Conexion.rs.getString(1)%>&idDevolucion=0&fechaRecibida=<%=Conexion.rs.getString(5)%>">
                                             <img src="https://img.icons8.com/officel/25/null/return.png"/>
                                         </a>
                                     </td>

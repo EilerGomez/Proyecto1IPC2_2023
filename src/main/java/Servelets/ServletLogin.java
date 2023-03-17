@@ -81,6 +81,9 @@ public class ServletLogin extends HttpServlet {
                                 System.out.println("Entrando en el area 4");
                                 response.sendRedirect("AreaSupervisor.jsp");
                                 break;
+                            case 2:
+                                response.sendRedirect("AreaBodega.jsp");
+                                break;
                             default:
                                 out.print("*Usuario no valido#");
                                 break;

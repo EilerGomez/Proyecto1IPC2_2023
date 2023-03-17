@@ -49,7 +49,7 @@
                                     <th scope="col"><%=Conexion.rs.getString(6)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(7)%></th>
                                     <td>
-                                        <a href="servletNuevaIncidencia?idEnvio=<%=Conexion.rs.getString(1)%>&idIncidencia=0">
+                                        <a href="servletNuevaIncidencia?idEnvio=<%=Conexion.rs.getString(1)%>&idIncidencia=0&fechaRecibida=<%=Conexion.rs.getString(5)%>">
                                             <img src="https://img.icons8.com/ultraviolet/25/null/inconsistency.png"/>
                                         </a>
                                     </td>

@@ -8,8 +8,12 @@ import SQL.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -43,31 +47,51 @@ public class servletNuevaIncidencia extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            HttpSession sesion = request.getSession();
-            int idEnvio = Integer.parseInt(request.getParameter("idEnvio"));
-            int usuario = Integer.parseInt(sesion.getAttribute("id").toString());
-            int tienda = Integer.parseInt(sesion.getAttribute("tienda").toString());
-            if (request.getParameter("idIncidencia").equals("0")) {
-                Calendar calendario = new GregorianCalendar();
-                String fecha = "";
-                String año = String.valueOf(calendario.get(Calendar.YEAR));
-                String mes = String.valueOf(calendario.get(Calendar.MONTH) + 1);
-                String dia = String.valueOf(calendario.get(Calendar.DAY_OF_MONTH));
-                fecha = año + "-" + mes + "-" + dia;
-                Conexion.crearIncidencia(usuario, tienda, fecha, "ACTIVA");
-                Conexion.traerUltimaIncidenciaPorUsuario(Integer.parseInt(sesion.getAttribute("id").toString()));
-                while (Conexion.rs.next()) {
-                    request.getSession().setAttribute("idIncidencia", (Conexion.rs.getString(1)));
-                }
-            }
-            request.getSession().setAttribute("idEnvio", idEnvio);
-            
-            response.sendRedirect("DelTienda/nuevaIncidencia.jsp");
+        PrintWriter outt = response.getWriter();
+        long diffrence = 0;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            java.util.Date firstDate = sdf.parse(request.getParameter("fechaRecibida"));
+            java.util.Date secondDate = sdf.parse(FechaFull());
 
-        } catch (SQLException ex) {
-            Logger.getLogger(servletNuevaIncidencia.class.getName()).log(Level.SEVERE, null, ex);
+            long diff = secondDate.getTime() - firstDate.getTime();
+
+            TimeUnit time = TimeUnit.DAYS;
+            diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+            System.out.println("The difference in days is : " + diffrence);
+        } catch (ParseException ex) {
+            Logger.getLogger(servletNuevaDevolucion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if (diffrence<=7) {
+            try (PrintWriter out = response.getWriter()) {
+                HttpSession sesion = request.getSession();
+                int idEnvio = Integer.parseInt(request.getParameter("idEnvio"));
+                int usuario = Integer.parseInt(sesion.getAttribute("id").toString());
+                int tienda = Integer.parseInt(sesion.getAttribute("tienda").toString());
+                if (request.getParameter("idIncidencia").equals("0")) {
+                    Calendar calendario = new GregorianCalendar();
+                    String fecha = "";
+                    String año = String.valueOf(calendario.get(Calendar.YEAR));
+                    String mes = String.valueOf(calendario.get(Calendar.MONTH) + 1);
+                    String dia = String.valueOf(calendario.get(Calendar.DAY_OF_MONTH));
+                    fecha = año + "-" + mes + "-" + dia;
+                    Conexion.crearIncidencia(usuario, tienda, fecha, "ACTIVA");
+                    Conexion.traerUltimaIncidenciaPorUsuario(Integer.parseInt(sesion.getAttribute("id").toString()));
+                    while (Conexion.rs.next()) {
+                        request.getSession().setAttribute("idIncidencia", (Conexion.rs.getString(1)));
+                    }
+                }
+                request.getSession().setAttribute("idEnvio", idEnvio);
+
+                response.sendRedirect("DelTienda/nuevaIncidencia.jsp");
+
+            } catch (SQLException ex) {
+                Logger.getLogger(servletNuevaIncidencia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            outt.print("El envio se hizo hace mas de una semana, por lo tanto no se puede realizar la incidencia");
+        }
+
     }
 
     @Override
