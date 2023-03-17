@@ -1084,4 +1084,120 @@ public class Conexion {
         }
     }
 
+    //AQUI EMPIEZAN  METODOS PARA EL USUARIO DE BODEGAS
+    public static void traerPedidosSolicitados(int idUsuario) {
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda, t.direccion, p.fecha, p.estado, p.costo_total_pedido from pedidos p join tiendas_usuario_bodega tub on(p.codigo_tienda = tub.codigo_tienda) \n"
+                + "join tienda t on(p.codigo_tienda = t.codigo_tienda) where tub.codigo_usuario = ? and p.estado='SOLICITADO';";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas a la bodega central: " + e);
+        }
+    }
+
+    public static void crearNuevoEnvio(int usuario, int tienda, String fechaSalida, double costoTotal) {
+        String query = "insert into envios (codigo_usuario, codigo_tienda, fecha_salida, costo_total_envio, estado) values (?,?,?,?,'DESPACHADO');";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, usuario);
+            stmt.setInt(2, tienda);
+            stmt.setString(3, fechaSalida);
+            stmt.setDouble(4, costoTotal);
+            stmt.executeUpdate();
+            stmt.close();
+            System.out.println("envio creado");
+        } catch (SQLException e) {
+            System.out.println("Error al crear envio: " + e);
+        }
+    }
+
+    public static void traerUltimoEnvioPorUsuario(int usuario) {
+        String query = "select Max(id_envio) maxEnvio from envios where codigo_usuario=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar el ultimo envio por el usuario: " + e);
+        }
+    }
+    
+    public static void traerCatalgosBodega(){
+         String query = "select * from producto_bodega;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas a la bodega central: " + e);
+        }
+    }
+    
+    public static void traerCatalogoEspecifico(int producto){
+        String query = "select * from producto_bodega where codigo_producto=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, producto);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas a la bodega central: " + e);
+        }
+    }
+    
+    public static void verificarProductoEnTienda(int tienda, int producto){
+        String query = "select * from productos_tienda where codigo_tienda =? and codigo_producto = ?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, tienda);
+            stmt.setInt(2, producto);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar el producto en el catalgo de la tienda " + e);
+        }
+    }
+    public static void actualizarTotalEnvio(double total, int idEnvio) {
+        String query = "update envios set costo_total_envio =? where id_envio=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setDouble(1, total);
+            stmt.setInt(2, idEnvio);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar el costo de la devolucion: " + e);
+        }
+    }
+    
+    public static void actualizarProductosEnBodega(int producto, int cantidadEnviada){
+        String query = "update producto_bodega set existencias = existencias -? where codigo_producto=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, cantidadEnviada);
+            stmt.setInt(2, producto);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar las existencias en la bodega: " + e);
+        }
+    }
+    
+    public static void traerEnviosHechosPorUsuarioBodega(int usuario){
+        String query = "select p.id_envio, p.codigo_usuario, p.codigo_tienda, t.direccion, p.fecha_salida, p.fecha_recibida, p.estado, p.costo_total_envio from envios p join tiendas_usuario_bodega tub on(p.codigo_tienda = tub.codigo_tienda) \n" +
+"join tienda t on(p.codigo_tienda = t.codigo_tienda) where tub.codigo_usuario = ? order by (p.id_envio) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar el producto en el catalgo de la tienda " + e);
+        }
+    }
+  
+
 }

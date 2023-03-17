@@ -28,11 +28,11 @@
             <!-- Main Header -->
             <header class="main-header">
                 <a href="#" class="logo">
-                    <span class="logo-lg"><b>Sistema </b>de Fábrica</span>
+                    <span class="logo-lg"><b>Bodega central </b></span>
                 </a>
 
                 <!-- Navegacion -->
-                <nav class="navbar navbar-static-top" role="navigation">
+                <nav class="navbar navbar-static-tp" role="navigation" style="background: #bce8f1">
                     <!-- botón para abrir el menu-->
                     <a href="#"  data-toggle="push-menu" >
 
@@ -40,11 +40,11 @@
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="#" id="ensamble"><img src="https://img.icons8.com/nolan/30/maintenance.png"/>Ensamblar muebles</a></li>
-                            <li> <a href="#" id="generarPiezas"><img src="https://img.icons8.com/nolan/30/amazon-s3.png"/>Generar piezas</a></li>
+                            <li><a href="#" id="nuevoEnvio"><img src="https://img.icons8.com/color/30/null/paper-plane.png"/>Nuevo Envio</a></li>
+
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="Images/AreaFabrica.png" class="user-image" alt="User Image">
+                                    <img src="Images/bodega.jpg" class="user-image" alt="User Image">
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                     <span class="hidden-xs"> <%=sesion.getAttribute("user")%> </span>
                                 </a>
@@ -53,7 +53,7 @@
                                 <ul class="dropdown-menu">
                                     <!-- The user image in the menu -->
                                     <li class="user-header">
-                                        <img src="Images/AreaFabrica.png" class="img-circle" alt="User Image">
+                                        <img src="Images/bodega.jpg" class="img-circle" alt="User Image">
 
                                         <p>                    
                                             <%=sesion.getAttribute("user")%>
@@ -80,7 +80,7 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="Images/AreaFabrica.png" class="img-circle" alt="User Image">
+                            <img src="Images/bodega.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <p>Bienvenido, <%=sesion.getAttribute("user")%>  </p>
@@ -99,18 +99,12 @@
                         <li class="header">INICIO</li>
                         <li class="active"><a href="#"><img src="https://img.icons8.com/nolan/30/manufacturing.png"/></i> <span>Panel Fabricación</span></a></li>
                         <li class="treeview">
-                            <a href="#"><img src="https://img.icons8.com/nolan/30/blockchain-new-logo.png"/> <span>Registros</span>                               
+                            <a href="#"><img src="https://img.icons8.com/nolan/30/send-file.png"/><span>Envios</span>                               
                             </a>
                             <ul class="treeview-menu">
-
-                                <li><a href="#" id="libro"></i><img src="https://img.icons8.com/nolan/30/literature.png"/>Libro de ensamble</a></li>
-                                <li><a href="#" id="registrarMueble"></i><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                                              width="30" height="30"
-                                                                              viewBox="0 0 172 172"
-                                                                              style=" fill:#000000;"><defs><linearGradient x1="86" y1="18.8125" x2="86" y2="153.40519" gradientUnits="userSpaceOnUse" id="color-1_62186_gr1"><stop offset="0" stop-color="#1a6dff"></stop><stop offset="1" stop-color="#c822ff"></stop></linearGradient><linearGradient x1="37.625" y1="61.92538" x2="37.625" y2="77.83538" gradientUnits="userSpaceOnUse" id="color-2_62186_gr2"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="69.875" y1="29.67538" x2="69.875" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-3_62186_gr3"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="102.125" y1="29.67538" x2="102.125" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-4_62186_gr4"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="134.375" y1="29.67538" x2="134.375" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-5_62186_gr5"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="37.625" y1="29.67538" x2="37.625" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-6_62186_gr6"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="37.625" y1="94.17538" x2="37.625" y2="110.08538" gradientUnits="userSpaceOnUse" id="color-7_62186_gr7"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="37.625" y1="126.42538" x2="37.625" y2="142.33538" gradientUnits="userSpaceOnUse" id="color-8_62186_gr8"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="86" y1="18.8125" x2="86" y2="153.40519" gradientUnits="userSpaceOnUse" id="color-9_62186_gr9"><stop offset="0" stop-color="#1a6dff"></stop><stop offset="1" stop-color="#c822ff"></stop></linearGradient><linearGradient x1="37.625" y1="61.92538" x2="37.625" y2="77.83538" gradientUnits="userSpaceOnUse" id="color-10_62186_gr10"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="69.875" y1="29.67538" x2="69.875" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-11_62186_gr11"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="102.125" y1="29.67538" x2="102.125" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-12_62186_gr12"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="134.375" y1="29.67538" x2="134.375" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-13_62186_gr13"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="37.625" y1="29.67538" x2="37.625" y2="45.58538" gradientUnits="userSpaceOnUse" id="color-14_62186_gr14"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="37.625" y1="94.17538" x2="37.625" y2="110.08538" gradientUnits="userSpaceOnUse" id="color-15_62186_gr15"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="37.625" y1="126.42538" x2="37.625" y2="142.33538" gradientUnits="userSpaceOnUse" id="color-16_62186_gr16"><stop offset="0" stop-color="#8ab4ff"></stop><stop offset="1" stop-color="#e492ff"></stop></linearGradient><linearGradient x1="137.06413" y1="107.50826" x2="137.06413" y2="172" gradientUnits="userSpaceOnUse" id="color-17_62186_gr17"><stop offset="0" stop-color="#1a6dff"></stop><stop offset="1" stop-color="#c822ff"></stop></linearGradient></defs><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none" stroke="none"></path><g id="original-icon" stroke="none" opacity="0" visibility="hidden"><path d="M139.75,18.8125h-107.5c-7.40944,0 -13.4375,6.02806 -13.4375,13.4375v107.5c0,7.40944 6.02806,13.4375 13.4375,13.4375h107.5c7.40944,0 13.4375,-6.02806 13.4375,-13.4375v-107.5c0,-7.40944 -6.02806,-13.4375 -13.4375,-13.4375zM115.5625,83.3125h-26.875v-26.875h26.875zM120.9375,56.4375h26.875v26.875h-26.875zM88.6875,51.0625v-26.875h26.875v26.875zM83.3125,51.0625h-26.875v-26.875h26.875zM83.3125,56.4375v26.875h-26.875v-26.875zM51.0625,83.3125h-26.875v-26.875h26.875zM24.1875,88.6875h26.875v26.875h-26.875zM56.4375,88.6875h26.875v26.875h-26.875zM83.3125,120.9375v26.875h-26.875v-26.875zM88.6875,120.9375h26.875v26.875h-26.875zM88.6875,115.5625v-26.875h26.875v26.875zM120.9375,88.6875h26.875v26.875h-26.875zM147.8125,32.25v18.8125h-26.875v-26.875h18.8125c4.44513,0 8.0625,3.61737 8.0625,8.0625zM32.25,24.1875h18.8125v26.875h-26.875v-18.8125c0,-4.44513 3.61737,-8.0625 8.0625,-8.0625zM24.1875,139.75v-18.8125h26.875v26.875h-18.8125c-4.44513,0 -8.0625,-3.61737 -8.0625,-8.0625zM139.75,147.8125h-18.8125v-26.875h26.875v18.8125c0,4.44513 -3.61737,8.0625 -8.0625,8.0625z" fill="url(#color-1_62186_gr1)"></path><path d="M29.5625,61.8125h16.125v16.125h-16.125z" fill="url(#color-2_62186_gr2)"></path><path d="M61.8125,29.5625h16.125v16.125h-16.125z" fill="url(#color-3_62186_gr3)"></path><path d="M94.0625,29.5625h16.125v16.125h-16.125z" fill="url(#color-4_62186_gr4)"></path><path d="M126.3125,45.6875h16.125v-13.4375c0,-1.4835 -1.204,-2.6875 -2.6875,-2.6875h-13.4375z" fill="url(#color-5_62186_gr5)"></path><path d="M32.25,29.5625c-1.4835,0 -2.6875,1.204 -2.6875,2.6875v13.4375h16.125v-16.125z" fill="url(#color-6_62186_gr6)"></path><path d="M29.5625,94.0625h16.125v16.125h-16.125z" fill="url(#color-7_62186_gr7)"></path><path d="M29.5625,139.75c0,1.4835 1.204,2.6875 2.6875,2.6875h13.4375v-16.125h-16.125z" fill="url(#color-8_62186_gr8)"></path></g><g id="subtracted-icon" stroke="none"><path d="M153.1875,32.25l0,70.30038c-0.93967,-0.27796 -1.91335,-0.42025 -2.8996,-0.42025c-0.83762,0 -1.66844,0.10188 -2.4754,0.30221v-13.74484h-26.875v24.87868c-1.85744,0.41611 -3.65504,1.0146 -5.375,1.77687v-26.65555h-26.875v26.875h26.3917c-2.90657,1.35157 -5.58266,3.17393 -7.94005,5.375l-18.45165,0v26.875l8.17306,0c0.14836,1.82319 0.44697,3.62013 0.88921,5.375h-65.49977c-7.40944,0 -13.4375,-6.02806 -13.4375,-13.4375v-107.5c0,-7.40944 6.02806,-13.4375 13.4375,-13.4375h107.5c7.40944,0 13.4375,6.02806 13.4375,13.4375zM115.5625,56.4375h-26.875v26.875h26.875zM120.9375,83.3125h26.875v-26.875h-26.875zM115.5625,51.0625v-26.875h-26.875v26.875zM83.3125,24.1875h-26.875v26.875h26.875zM56.4375,56.4375v26.875h26.875v-26.875zM51.0625,56.4375h-26.875v26.875h26.875zM24.1875,115.5625h26.875v-26.875h-26.875zM56.4375,115.5625h26.875v-26.875h-26.875zM56.4375,120.9375v26.875h26.875v-26.875zM139.75,24.1875h-18.8125v26.875h26.875v-18.8125c0,-4.44513 -3.61737,-8.0625 -8.0625,-8.0625zM24.1875,32.25v18.8125h26.875v-26.875h-18.8125c-4.44513,0 -8.0625,3.61737 -8.0625,8.0625zM32.25,147.8125h18.8125v-26.875h-26.875v18.8125c0,4.44513 3.61737,8.0625 8.0625,8.0625z" fill="url(#color-9_62186_gr9)"></path><path d="M29.5625,77.9375h16.125v-16.125h-16.125z" fill="url(#color-10_62186_gr10)"></path><path d="M61.8125,45.6875h16.125v-16.125h-16.125z" fill="url(#color-11_62186_gr11)"></path><path d="M94.0625,45.6875h16.125v-16.125h-16.125z" fill="url(#color-12_62186_gr12)"></path><path d="M126.3125,45.6875h16.125v-13.4375c0,-1.4835 -1.204,-2.6875 -2.6875,-2.6875h-13.4375z" fill="url(#color-13_62186_gr13)"></path><path d="M32.25,29.5625c-1.4835,0 -2.6875,1.204 -2.6875,2.6875v13.4375h16.125v-16.125z" fill="url(#color-14_62186_gr14)"></path><path d="M29.5625,110.1875h16.125v-16.125h-16.125z" fill="url(#color-15_62186_gr15)"></path><path d="M29.5625,139.75c0,1.4835 1.204,2.6875 2.6875,2.6875h13.4375v-16.125h-16.125z" fill="url(#color-16_62186_gr16)"></path></g><g stroke="none"><g id="Layer_1" fill="url(#color-17_62186_gr17)"><path d="M127.70429,172h11.01817c3.53656,0 6.35023,-3.00715 6.35023,-6.71302v-8.06207c0,-3.70587 -2.81635,-6.72377 -6.35023,-6.72377h-9.88679c-2.54224,0 -4.69481,-1.98864 -5.00655,-4.62763c-0.18812,-1.62316 0.24186,-3.17914 1.20931,-4.38039c0.90026,-1.10182 2.17945,-1.74141 3.50163,-1.74141h16.59174v5.36128c0,2.04777 1.08569,3.89129 2.84054,4.81037c1.84621,0.95939 4.0391,0.69871 5.60045,-0.65572l15.63773,-14.01994c1.75216,-1.48342 2.78948,-3.77842 2.78948,-6.24542c0,-2.46699 -1.03732,-4.762 -2.8486,-6.29648l-15.54368,-13.93932c-1.60167,-1.38668 -3.79455,-1.64466 -5.62464,-0.69603c-1.76559,0.92714 -2.85397,2.77067 -2.85397,4.81843v5.36397h-17.9838c-13.55503,0 -24.77744,11.84856 -25.01392,26.41135v0.00269c-0.11018,7.02744 2.41593,13.74852 7.10806,18.92706c4.84799,5.34247 11.57714,8.40605 18.46483,8.40605zM138.72245,155.87586c0.55091,0 1.03463,0.62615 1.03463,1.34368v8.06207c0,0.71752 -0.48372,1.34368 -1.03463,1.34368h-11.01817c-5.37203,0 -10.65,-2.42131 -14.48217,-6.64315c-3.77036,-4.16272 -5.802,-9.57237 -5.71332,-15.22925v0c0.18812,-11.64969 8.99459,-21.12532 19.63652,-21.12532h23.3612v-10.42157l15.1137,13.54966c0.6584,0.56166 1.00507,1.36249 1.00507,2.24663c0,0.88414 -0.34667,1.68497 -0.94864,2.19557l-15.21851,13.64103l0.04837,-10.46188h-21.96646c-2.94534,0 -5.74288,1.3598 -7.67778,3.73274c-1.88921,2.34606 -2.73036,5.32097 -2.37294,8.38993c0.63422,5.34784 5.08179,9.37619 10.34633,9.37619z"></path></g><g id="Layer_1" fill="#000000" opacity="0"><path d="M177.37647,129.0037c0,4.03104 -1.69304,7.76646 -4.62225,10.29258l-15.66729,14.02801c-1.85428,1.63929 -4.24602,2.52612 -6.71839,2.55299c0.05375,0.42998 0.08062,0.88683 0.08062,1.34368v8.06207c0,6.66465 -5.26722,12.09311 -11.71688,12.09311h-11.01817c-8.41143,0 -16.581,-3.70855 -22.46631,-10.15821c-5.5897,-6.2078 -8.62642,-14.24299 -8.49205,-22.62755c0.29561,-17.4947 13.92051,-31.71082 30.39401,-31.71082h12.60371c0,-4.05791 2.20363,-7.71272 5.75094,-9.56699c1.47805,-0.77933 3.11733,-1.18244 4.7835,-1.18244c2.49924,0 4.91786,0.9137 6.90651,2.63361l15.50605,13.89364c2.98297,2.55299 4.676,6.31529 4.676,10.34633z"></path></g></g><path d="M102.12794,172v-64.49373h69.87206v64.49373z" id="overlay-drag" fill="#ff0000" stroke="none" opacity="0"></path></g></svg>
-                                        Registrar Muebles(venta)</a></li>
-
+                                <li><a href="#" id="TodosEnvios"><img src="https://img.icons8.com/color/30/000000/show-property.png"/>Todos</a></li>
                             </ul>
+
                         </li>
                         <li class="treeview">
                             <a href="#"><img src="https://img.icons8.com/nolan/30/fast-cart.png"/> <span>Compras</span>                               
@@ -153,21 +147,20 @@
                 </section>
             </aside>
 
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="background: #ccc">
                 <section class="content-header">
                     <h1>
-                        Ensamble de muebles
-                        <small>Mi Mueblería</small>
+                        Reportes de Bodega
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="logOut.jsp"> Inicio</a></li>
-                        <li class="active">Panel de Fabricacion de muebles</li>
+                        <li><a href="LogOut.jsp"> Inicio</a></li>
+                        <li class="active">Panel de reportes de bodegas</li>
                     </ol>
                 </section>
 
-                <section class="content" style="background-color: #50d2ff;">
+                <section class="content">
                     <div class="row">
-                      
+
                         <div  class="col-lg-3 col-xs-6">
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -182,17 +175,13 @@
                                 </div>
                             </div>
                         </div>
-                      
+
 
                     </div>
                 </section>
                 <fieldset>
-                    <div  id="Contenido" style="
-                          background-color: #c3d7fb;
-                          ">
-
-
-                        <script type="text/javascript" src="Js/BotonesFabrica.js"></script>
+                    <div  id="Contenido">
+                        <script type="text/javascript" src="Js/botonesBodega.js"></script>
                     </div>
                 </fieldset>
 

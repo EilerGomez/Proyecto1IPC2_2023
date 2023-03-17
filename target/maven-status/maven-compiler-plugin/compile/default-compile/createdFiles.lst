@@ -5,8 +5,10 @@ Encriptacion\Encriptacion.class
 Servelets\ServletEditarUsuario.class
 Servelets\servletAgregarTiendaAUnaBodega.class
 Servelets\ServletLogin.class
+Servelets\servletNuevoEnvio.class
 Servelets\servletNuevaIncidencia.class
 Servelets\ServletAgregarUsuario.class
+Servelets\guardarAprobacionPedido.class
 CargaDatos\JsonSimpleReadExample.class
 Servelets\ServletTablaUsuarios.class
 SQL\Conexion.class
