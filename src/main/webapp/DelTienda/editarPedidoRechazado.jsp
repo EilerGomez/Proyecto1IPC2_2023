@@ -108,7 +108,7 @@
                                 <th scope="col"><%=Conexion.rs.getString(4)%></th>  
                                 <th scope="col"><%=Conexion.rs.getString(5)%></th>
                                 <td>
-                                    <a href="editarCantidadProductoPedido.jsp?idPedido=<%=idPedido%>&idProducto=<%=Conexion.rs.getString(1)%>&nombre=<%=Conexion.rs.getString(2)%>&cantidad=<%=Conexion.rs.getString(4)%>&costo=<%=Conexion.rs.getString(3)%>">
+                                    <a href="editarCantidadProductoPedido.jsp?idPedido=<%=idPedido%>&idProducto=<%=Conexion.rs.getString(1)%>&nombre=<%=Conexion.rs.getString(2)%>&cantidad=<%=Conexion.rs.getString(4)%>&costo=<%=Conexion.rs.getString(3)%>&mensaje=<%=mensaje%>">
                                         <img src="https://img.icons8.com/metro/25/null/pencil.png"/>
                                     </a>                                    
                                 </td>

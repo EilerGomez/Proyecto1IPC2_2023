@@ -965,5 +965,112 @@ public class Conexion {
             System.out.println("Error al consultar las incidencias en x tiempo: " + e);
         }
     }
+    
+    public static void traerPedidosDeTiendasSupervisadas(){
+         String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where (t.tipo='supervisada' or t.tipo='SUPERVISADA');";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);          
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas: " + e);
+        }
+    }
+    
+    public static void traerPedidosPendientes(){
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where (t.tipo='supervisada' or t.tipo='SUPERVISADA') and (p.estado = 'PENDIENTE' or p.estado='pendiente');";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);          
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas: " + e);
+        }
+    }
+    
+    public static void actualizarEstadoDelPedido(int idPedido, String mensaje, String estado){
+        String query="update pedidos set estado =?, mensaje =? WHERE id_pedido = ?;";
+      
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, estado);
+            stmt.setString(2, mensaje);
+            stmt.setInt(3, idPedido);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar estado y mensaje del pedido: " + idPedido +"; " + e);
+        }
+    }
+    
+    public static void traerPedidosPendientesPorTienda(int tienda){
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where (t.tipo='supervisada' or t.tipo='SUPERVISADA') and (p.estado = 'PENDIENTE' or p.estado='pendiente') and p.codigo_tienda=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query); 
+            stmt.setInt(1, tienda);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas de tienda: " + e);
+        }
+    }
+    
+    //REPORTES DEL USUARIO SUPERVISOR
+    
+    public static void traerPedidosDeTiendasSupervisadasIDTienda(int tienda){
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where (t.tipo='supervisada' or t.tipo='SUPERVISADA') and p.codigo_tienda=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query); 
+            stmt.setInt(1, tienda);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas de tienda: " + e);
+        }
+    }
+    
+    public static void traerPedidosDeTiendasSupervisadasEstado(String estado){
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where (t.tipo='supervisada' or t.tipo='SUPERVISADA') and p.estado=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query); 
+            stmt.setString(1, estado);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas de tienda: " + e);
+        }
+    }
+    
+    public static void traerPedidosDeTiendasSupervisadasIntervaloTiempo(String desde, String hasta){
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, "
+                + "p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where (t.tipo='supervisada' or t.tipo='SUPERVISADA') and (p.fecha >=? and p.fecha<=?);";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query); 
+            stmt.setString(1, desde);
+            stmt.setString(2, hasta);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas de tienda: " + e);
+        }
+    }
+    
+    public static void traerPedidosTSupervisadasXFechaEstadoYCodigoTienda(String desde, String hasta, String estado, int tienda){
+        String query = "select p.id_pedido, p.codigo_usuario, p.codigo_tienda,t.tipo, p.fecha, p.estado, "
+                + "p.costo_total_pedido from pedidos p join tienda t on(t.codigo_tienda=p.codigo_tienda) where "
+                + "(t.tipo='supervisada' or t.tipo='SUPERVISADA') and (p.fecha >=? and p.fecha<=?) and p.estado = ? and p.codigo_tienda=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query); 
+            stmt.setString(1, desde);
+            stmt.setString(2, hasta);
+            stmt.setString(3, estado);
+            stmt.setInt(4, tienda);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los pedidos de tiendas supervisadas de tienda: " + e);
+        }
+    }
+    
 
 }

@@ -54,7 +54,7 @@ public class ServletLogin extends HttpServlet {
                     sesion.setAttribute("area", Conexion.rs.getString("area"));
                     sesion.setAttribute("activo", Conexion.rs.getString("activo"));
                     if (sesion.getAttribute("activo").equals("0")) {
-                        out.print("<div class=\"alert alert-danger\" role=\"alert\">#Tu usuario esta incativo reportate con el administrador</div>");
+                        out.print("<div class=\"alert alert-danger\" role=\"alert\">#Tu usuario esta inactivo reportate con el administrador</div>");
                     } else {
                         switch (area) {
                             case 1:
@@ -76,6 +76,10 @@ public class ServletLogin extends HttpServlet {
 
                                 }
                                 out.print("Tu usuario no tiene ninguna tienda agregada, comunicate con tu admnistrador ");
+                                break;
+                            case 4:
+                                System.out.println("Entrando en el area 4");
+                                response.sendRedirect("AreaSupervisor.jsp");
                                 break;
                             default:
                                 out.print("*Usuario no valido#");

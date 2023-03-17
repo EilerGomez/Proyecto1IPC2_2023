@@ -18,6 +18,7 @@
             <div class="row mt-2">
                 <div class="col-sm">
                     <%
+                        String mensaje = request.getParameter("mensaje");
                         int idPedido = Integer.parseInt(request.getParameter("idPedido").toString());
                         int idProducto = Integer.parseInt(request.getParameter("idProducto").toString());
                         double costo = Double.parseDouble(request.getParameter("costo"));
@@ -32,6 +33,7 @@
 
                     <form action="editarPedidoRechazado.jsp" method="POST">
                         <input type="hidden" name="idPedido" value="<%=idPedido%>"/>
+                        <input type="hidden" name="mensaje" value="<%=mensaje%>"/>
                         <button type="submit" class="btn btn-danger">Regresar</button>
                     </form>
                     <form action="editarCantidadProductoPedido.jsp" method="get">
@@ -42,6 +44,7 @@
                             <input type="hidden" name="idProducto" value="<%=idProducto%>"/>
                             <input type="hidden" name="nombre" value="<%=nombre%>"/>
                             <input type="hidden" name="costo" value="<%=costo%>"/>
+                            <input type="hidden" name="mensaje" value="<%=mensaje%>"/>
                         </div>
                         <button type="submit" class="btn btn-primary" name="guardar">Guardar</button>                        
                     </form>
