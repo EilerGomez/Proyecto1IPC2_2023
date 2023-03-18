@@ -43,7 +43,7 @@
                                 <th scope="col"><%=Conexion.rs.getString(1)%></th>
                                 <th scope="col"><%=Conexion.rs.getString(2)%></th>
                                 <th scope="col"><%=Conexion.rs.getString(3)%></th>  
-                                <th scope="col"><%=Conexion.rs.getString(4)%></th>  
+                                <th scope="col"><%=Conexion.rs.getString(5)%></th>  
                             </tr>
                             <%
                                 }
@@ -56,10 +56,10 @@
                                 Conexion.traerProductosDeDevolucion(idDevolucion);
                                 //cambiar el estado de la devolucion, guardar productos si son dañados o equivocados
                                 while (Conexion.rs.next()) {
-                                    if (Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO DAÑADO") || Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO DAÃ‘ADO")) {
+                                    if (Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO DAÑADO") || Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO DAÃ‘ADO")) {
                                         Conexion.actualizarProductosDañados(Integer.parseInt(Conexion.rs.getString(3)), Integer.parseInt(Conexion.rs.getString(1)));
                                         Conexion.actualizarProductosTienda(Integer.parseInt(Conexion.rs.getString(3)), tienda, Integer.parseInt(Conexion.rs.getString(1)));
-                                    } else if (Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO EQUIVOCADO") || Conexion.rs.getString(4).equalsIgnoreCase("SOBRANTE DE PRODUCTO") || Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO NO SOLICITADO")) {
+                                    } else if (Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO EQUIVOCADO") || Conexion.rs.getString(5).equalsIgnoreCase("SOBRANTE DE PRODUCTO") || Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO NO SOLICITADO")) {
                                         Conexion.actualizarProductosBodega(Integer.parseInt(Conexion.rs.getString(3)), Integer.parseInt(Conexion.rs.getString(1)));
                                         Conexion.actualizarProductosTienda(Integer.parseInt(Conexion.rs.getString(3)), tienda, Integer.parseInt(Conexion.rs.getString(1)));
                                     }

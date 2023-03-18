@@ -1271,7 +1271,7 @@ public class Conexion {
     }
     
     public static void actualizarProductosTienda(int cantidad, int tienda, int producto){
-        String query = "update producto_tienda set existencias = existencias - ? where codigo_tienda =? and codigo_producto=?;";
+        String query = "update productos_tienda set existencias = existencias - ? where codigo_tienda =? and codigo_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, cantidad);
