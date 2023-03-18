@@ -1269,6 +1269,70 @@ public class Conexion {
             System.out.println("Error al consultar las incidencias activas: " + e);
         }
     }
+    
+    public static void actualizarProductosTienda(int cantidad, int tienda, int producto){
+        String query = "update producto_tienda set existencias = existencias - ? where codigo_tienda =? and codigo_producto=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, cantidad);
+            stmt.setInt(2, tienda);
+            stmt.setInt(3, producto);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar las existencias de la tienda: " + e);
+        }
+    }
+    public static void actualizarProductosBodega(int cantidad, int producto){
+        String query = "update producto_bodega set existencias = existencias + ? where codigo_producto=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, cantidad);
+            stmt.setInt(2, producto);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar las existencias de la bodega: " + e);
+        }
+    }
+    
+    public static void actualizarProductosDañados(int cantidad, int producto){
+        String query = "update producto_daniado set existencias = existencias + ? where codigo_producto=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, cantidad);
+            stmt.setInt(2, producto);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar las existencias de los productos dañados: " + e);
+        }
+    }
+    public static void actualizarEstadoDevolucion(String estado, int idDevolucion){
+        String query = "update devoluciones set estado =? where id_devolucion =?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, estado);
+            stmt.setInt(2, idDevolucion);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar el estado de la devolucion: " + e);
+        }
+    }
+    
+    public static void traerDevolucionesActivasFiltradasPorTienda(int idUsuario, int tienda) {
+        String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda = tub.codigo_tienda) where d.estado='ACTIVA' AND tub.codigo_usuario = ? and d.codigo_tienda=? order by(d.id_devolucion) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, tienda);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar las incidencias activas: " + e);
+        }
+    }
   
 
 }

@@ -18,7 +18,7 @@
         <div class="container ">            
             <div class="row mt-2">
                 <div class="col-sm">
-                    <h2>Pedidos solicitados de las tiendas</h2>
+                    <h2>Envios hechos a las tiendas</h2>
                     <form method="get">
                         <table class="table table-dark table-striped" style="background: #bce8f1">
                             <thead>

@@ -40,8 +40,10 @@
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="#" id="nuevoEnvio"><img src="https://img.icons8.com/color/30/null/paper-plane.png"/>Nuevo Envio</a></li>
-                            <li><a href="#" id="solucionarIncidencias"><img src="https://img.icons8.com/dusk/30/null/light-automation.png"/>Solucionar incidencias</a></li>
+                            <li><a href="#" id="nuevoEnvio"><img src="https://img.icons8.com/color/30/null/paper-plane.png"/> Nuevo Envio</a></li>
+                            <li><a href="#" id="solucionarIncidencias"><img src="https://img.icons8.com/dusk/30/null/light-automation.png"/> Solucionar incidencias</a></li>
+                            <li><a href="#" id="recibirDevoluciones"><img src="https://img.icons8.com/fluency/25/null/refresh.png"/> Recibir devoluciones</a></li>
+                            
 
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -128,7 +130,7 @@
                                 <li><a href="#" id="todasDevoluciones"><img src="https://img.icons8.com/color/23/null/checklist.png"/>
                                         Todas</a></li>
                                 <li>
-                                    <a href="#" id="todasDevoluciones"><img src="https://img.icons8.com/color/25/null/checked-checkbox.png"/>
+                                    <a href="#" id="devolucionesActivas"><img src="https://img.icons8.com/color/25/null/checked-checkbox.png"/>
                                         Activas</a>
                                 </li>
                             </ul>

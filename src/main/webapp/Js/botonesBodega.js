@@ -92,6 +92,38 @@
         xhr.send();        
     }
 })();
+(function(){
+    var buton = document.querySelector("#devolucionesActivas");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelBodega/tablaDevolucionesActivas.jsp");
+        xhr.send();        
+    }
+})();
+(function(){
+    var buton = document.querySelector("#recibirDevoluciones");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelBodega/buscarDevolucionesPorTiendas.jsp");
+        xhr.send();        
+    }
+})();
+
+
 
 
 

@@ -18,7 +18,7 @@
                             <label for="exampleInputEmail1" class="form-label">Elija una opcion para la devolucion</label>
                         </div>
                         <button class="btn btn-primary" name="aceptar">Aceptar</button>
-                        <button class="btn btn-primary" name="rechazar">Rechazar</button>
+                        <button class="btn btn-danger" name="rechazar">Rechazar</button>
                     </form>
                     <div style="text-align: right">
                         <a type="submit" class="btn btn-danger" href="../AreaBodega.jsp">Regresar</a>
@@ -29,12 +29,13 @@
                                 <th scope="col">ID PRODUCTO</th>
                                 <th scope="col">NOMBRE PRODUCTO</th>
                                 <th scope="col">CANTIDAD AFECTADA</th>
-                                <th scope="col">MOTIVO INCIDENCIA</th>
+                                <th scope="col">MOTIVO DEVOLUCION</th>
                             </tr>
                         </thead>
                         <tbody>
                             <%
                                 int idDevolucion = Integer.parseInt(request.getParameter("idDevolucion"));
+                                int tienda = Integer.parseInt(request.getParameter("tienda"));
                                 Conexion.traerProductosDeDevolucion(idDevolucion);
                                 while (Conexion.rs.next()) {
                             %>
@@ -52,13 +53,27 @@
                         <%
                             //solucionar incidencia
                             if (request.getParameter("aceptar") != null) {
-                            //cambiar el estado de la devolucion, guardar productos si son dañados o equivocados
-                                Conexion.actualizarEstadoDeIncidencia(idIncidencia, request.getParameter("solucion"));
+                                Conexion.traerProductosDeDevolucion(idDevolucion);
+                                //cambiar el estado de la devolucion, guardar productos si son dañados o equivocados
+                                while (Conexion.rs.next()) {
+                                    if (Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO DAÑADO") || Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO DAÃ‘ADO")) {
+                                        Conexion.actualizarProductosDañados(Integer.parseInt(Conexion.rs.getString(3)), Integer.parseInt(Conexion.rs.getString(1)));
+                                        Conexion.actualizarProductosTienda(Integer.parseInt(Conexion.rs.getString(3)), tienda, Integer.parseInt(Conexion.rs.getString(1)));
+                                    } else if (Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO EQUIVOCADO") || Conexion.rs.getString(4).equalsIgnoreCase("SOBRANTE DE PRODUCTO") || Conexion.rs.getString(4).equalsIgnoreCase("PRODUCTO NO SOLICITADO")) {
+                                        Conexion.actualizarProductosBodega(Integer.parseInt(Conexion.rs.getString(3)), Integer.parseInt(Conexion.rs.getString(1)));
+                                        Conexion.actualizarProductosTienda(Integer.parseInt(Conexion.rs.getString(3)), tienda, Integer.parseInt(Conexion.rs.getString(1)));
+                                    }
+                                }
+                                Conexion.actualizarEstadoDevolucion("ACEPTADA", idDevolucion);
+                                response.sendRedirect("../AreaBodega.jsp");
+                            }
+                            if (request.getParameter("rechazar") != null) {
+                                Conexion.actualizarEstadoDevolucion("RECHAZADA", idDevolucion);
                                 response.sendRedirect("../AreaBodega.jsp");
                             }
                         %>
 
-                        <h3>Productos que contiene la incidencia <%=idIncidencia%></h3>
+                        <h3>Productos que contiene la devolucion <%=idDevolucion%></h3>
                     </table>
                 </div>
             </div>
