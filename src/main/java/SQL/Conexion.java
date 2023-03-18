@@ -1198,6 +1198,77 @@ public class Conexion {
             System.out.println("Error al consultar el producto en el catalgo de la tienda " + e);
         }
     }
+    
+    public static void traerTodasIncidencias(int usuario){
+        String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda = tub.codigo_tienda) where tub.codigo_usuario = ? order by(i.id_incidencia) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar todas las incidencias " + e);
+        }
+    }
+    
+    public static void traerIncidenciasActivas(int idUsuario) {
+        String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda = tub.codigo_tienda) where i.estado='ACTIVA' and tub.codigo_usuario = ? order by(i.id_incidencia) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar las incidencias activas: " + e);
+        }
+    }
+    
+    public static void actualizarEstadoDeIncidencia(int incidencia, String solucion){
+        String query = "update incidencias set estado ='SOLUCIONADA', solucion=? where id_incidencia =?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, solucion);
+            stmt.setInt(2, incidencia);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar las existencias en la bodega: " + e);
+        }
+    }
+    public static void traerIncidenciasActivasPorTienda(int idUsuario, int tienda) {
+        String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda = tub.codigo_tienda) where i.estado='ACTIVA' and tub.codigo_usuario = ? and i.id_tienda=? order by(i.id_incidencia) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, tienda);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar las incidencias activas: " + e);
+        }
+    }
+    public static void traerTodasDevolucines(int usuario){
+        String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda = tub.codigo_tienda) where tub.codigo_usuario = ? order by(d.id_devolucion) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar todas las incidencias " + e);
+        }
+    }
+    public static void traerDevolucionesActivas(int idUsuario) {
+        String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda = tub.codigo_tienda) where d.estado='ACTIVA' AND tub.codigo_usuario = ? order by(d.id_devolucion) desc;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar las incidencias activas: " + e);
+        }
+    }
   
 
 }
