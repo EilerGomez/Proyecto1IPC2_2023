@@ -122,6 +122,52 @@
         xhr.send();        
     }
 })();
+(function(){
+    var buton = document.querySelector("#buscarEnviosFiltradosTiendaYFecha");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelBodega/buscarEnviosPorTiendaYFecha.jsp");
+        xhr.send();        
+    }
+})();
+(function(){
+    var buton = document.querySelector("#buscarIncidenciasSolucionadas");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelBodega/buscarDevolucionesSolucionadasPorTiendaYFecha.jsp");
+        xhr.send();        
+    }
+})();
+(function(){
+    var buton = document.querySelector("#buscarDevolucionesPorTiendaFechaYestadp");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelBodega/buscarDevolucioneDeTiendaPorFechaYEstado.jsp");
+        xhr.send();        
+    }
+})();
+
 
 
 

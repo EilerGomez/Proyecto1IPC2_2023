@@ -43,7 +43,7 @@
                             <li><a href="#" id="nuevoEnvio"><img src="https://img.icons8.com/color/30/null/paper-plane.png"/> Nuevo Envio</a></li>
                             <li><a href="#" id="solucionarIncidencias"><img src="https://img.icons8.com/dusk/30/null/light-automation.png"/> Solucionar incidencias</a></li>
                             <li><a href="#" id="recibirDevoluciones"><img src="https://img.icons8.com/fluency/25/null/refresh.png"/> Recibir devoluciones</a></li>
-                            
+
 
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -158,18 +158,39 @@
                         <div  class="col-lg-3 col-xs-6">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>Cantidad: </h3>
-
-                                    <p>Pieza Agotandose menores a 5</p>
-                                    <p>tipo</p>
+                                    <h4>Buscar envios filtrados por tienda e intervalo</h4>
+                                    <h4>de tiempo</h4>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
-                                    <a href="#" id="compraDeAgotadas"><img src="https://img.icons8.com/nolan/64/fast-cart.png" class="ion ion-bag"/></a>
+                                    <a href="#" id="buscarEnviosFiltradosTiendaYFecha"><img src="https://img.icons8.com/arcade/50/null/view-file.png"/></a>
                                 </div>
                             </div>
                         </div>
-
+                        <div  class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-aqua-active">
+                                <div class="inner">
+                                    <h4>Buscar incidencias solucionadas filtradas por</h4>
+                                    <h4>tienda e intervalo de tiempo</h4>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    <a href="#" id="buscarIncidenciasSolucionadas"><img src="https://img.icons8.com/dusk/50/null/view-file.png"/></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-blue-gradient">
+                                <div class="inner">
+                                    <h4>Buscar devoluciones de una tienda filtradas</h4>
+                                    <h4>por intervalo de tiempo y estado</h4>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                    <a href="#" id="buscarDevolucionesPorTiendaFechaYestadp"><img src="https://img.icons8.com/officel/50/null/view-file.png"/></a>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </section>

@@ -48,7 +48,7 @@
 
                         </tbody>
 
-                        <h3>Productos que contiene la incidencia <%=idDevolucion%></h3>
+                        <h3>Productos que contiene la devolucion <%=idDevolucion%></h3>
                         <h3>El total de la devolucion es: <%=total%></h3>
                     </table>
                 </div>

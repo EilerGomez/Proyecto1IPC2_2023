@@ -1124,9 +1124,9 @@ public class Conexion {
             System.out.println("Error al consultar el ultimo envio por el usuario: " + e);
         }
     }
-    
-    public static void traerCatalgosBodega(){
-         String query = "select * from producto_bodega;";
+
+    public static void traerCatalgosBodega() {
+        String query = "select * from producto_bodega;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             rs = stmt.executeQuery();
@@ -1135,8 +1135,8 @@ public class Conexion {
             System.out.println("Error al consultar los pedidos de tiendas a la bodega central: " + e);
         }
     }
-    
-    public static void traerCatalogoEspecifico(int producto){
+
+    public static void traerCatalogoEspecifico(int producto) {
         String query = "select * from producto_bodega where codigo_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1147,8 +1147,8 @@ public class Conexion {
             System.out.println("Error al consultar los pedidos de tiendas a la bodega central: " + e);
         }
     }
-    
-    public static void verificarProductoEnTienda(int tienda, int producto){
+
+    public static void verificarProductoEnTienda(int tienda, int producto) {
         String query = "select * from productos_tienda where codigo_tienda =? and codigo_producto = ?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1160,6 +1160,7 @@ public class Conexion {
             System.out.println("Error al consultar el producto en el catalgo de la tienda " + e);
         }
     }
+
     public static void actualizarTotalEnvio(double total, int idEnvio) {
         String query = "update envios set costo_total_envio =? where id_envio=?;";
         try {
@@ -1172,8 +1173,8 @@ public class Conexion {
             System.out.println("Error al actualizar el costo de la devolucion: " + e);
         }
     }
-    
-    public static void actualizarProductosEnBodega(int producto, int cantidadEnviada){
+
+    public static void actualizarProductosEnBodega(int producto, int cantidadEnviada) {
         String query = "update producto_bodega set existencias = existencias -? where codigo_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1185,10 +1186,10 @@ public class Conexion {
             System.out.println("Error al actualizar las existencias en la bodega: " + e);
         }
     }
-    
-    public static void traerEnviosHechosPorUsuarioBodega(int usuario){
-        String query = "select p.id_envio, p.codigo_usuario, p.codigo_tienda, t.direccion, p.fecha_salida, p.fecha_recibida, p.estado, p.costo_total_envio from envios p join tiendas_usuario_bodega tub on(p.codigo_tienda = tub.codigo_tienda) \n" +
-"join tienda t on(p.codigo_tienda = t.codigo_tienda) where tub.codigo_usuario = ? order by (p.id_envio) desc;";
+
+    public static void traerEnviosHechosPorUsuarioBodega(int usuario) {
+        String query = "select p.id_envio, p.codigo_usuario, p.codigo_tienda, t.direccion, p.fecha_salida, p.fecha_recibida, p.estado, p.costo_total_envio from envios p join tiendas_usuario_bodega tub on(p.codigo_tienda = tub.codigo_tienda) \n"
+                + "join tienda t on(p.codigo_tienda = t.codigo_tienda) where tub.codigo_usuario = ? order by (p.id_envio) desc;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, usuario);
@@ -1198,8 +1199,8 @@ public class Conexion {
             System.out.println("Error al consultar el producto en el catalgo de la tienda " + e);
         }
     }
-    
-    public static void traerTodasIncidencias(int usuario){
+
+    public static void traerTodasIncidencias(int usuario) {
         String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda = tub.codigo_tienda) where tub.codigo_usuario = ? order by(i.id_incidencia) desc;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1210,7 +1211,7 @@ public class Conexion {
             System.out.println("Error al consultar todas las incidencias " + e);
         }
     }
-    
+
     public static void traerIncidenciasActivas(int idUsuario) {
         String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda = tub.codigo_tienda) where i.estado='ACTIVA' and tub.codigo_usuario = ? order by(i.id_incidencia) desc;";
         try {
@@ -1222,8 +1223,8 @@ public class Conexion {
             System.out.println("Error al consultar las incidencias activas: " + e);
         }
     }
-    
-    public static void actualizarEstadoDeIncidencia(int incidencia, String solucion){
+
+    public static void actualizarEstadoDeIncidencia(int incidencia, String solucion) {
         String query = "update incidencias set estado ='SOLUCIONADA', solucion=? where id_incidencia =?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1235,6 +1236,7 @@ public class Conexion {
             System.out.println("Error al actualizar las existencias en la bodega: " + e);
         }
     }
+
     public static void traerIncidenciasActivasPorTienda(int idUsuario, int tienda) {
         String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda = tub.codigo_tienda) where i.estado='ACTIVA' and tub.codigo_usuario = ? and i.id_tienda=? order by(i.id_incidencia) desc;";
         try {
@@ -1247,7 +1249,8 @@ public class Conexion {
             System.out.println("Error al consultar las incidencias activas: " + e);
         }
     }
-    public static void traerTodasDevolucines(int usuario){
+
+    public static void traerTodasDevolucines(int usuario) {
         String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda = tub.codigo_tienda) where tub.codigo_usuario = ? order by(d.id_devolucion) desc;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1258,6 +1261,7 @@ public class Conexion {
             System.out.println("Error al consultar todas las incidencias " + e);
         }
     }
+
     public static void traerDevolucionesActivas(int idUsuario) {
         String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda = tub.codigo_tienda) where d.estado='ACTIVA' AND tub.codigo_usuario = ? order by(d.id_devolucion) desc;";
         try {
@@ -1269,8 +1273,8 @@ public class Conexion {
             System.out.println("Error al consultar las incidencias activas: " + e);
         }
     }
-    
-    public static void actualizarProductosTienda(int cantidad, int tienda, int producto){
+
+    public static void actualizarProductosTienda(int cantidad, int tienda, int producto) {
         String query = "update productos_tienda set existencias = existencias - ? where codigo_tienda =? and codigo_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1283,7 +1287,8 @@ public class Conexion {
             System.out.println("Error al actualizar las existencias de la tienda: " + e);
         }
     }
-    public static void actualizarProductosBodega(int cantidad, int producto){
+
+    public static void actualizarProductosBodega(int cantidad, int producto) {
         String query = "update producto_bodega set existencias = existencias + ? where codigo_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1295,8 +1300,8 @@ public class Conexion {
             System.out.println("Error al actualizar las existencias de la bodega: " + e);
         }
     }
-    
-    public static void actualizarProductosDañados(int cantidad, int producto){
+
+    public static void actualizarProductosDañados(int cantidad, int producto) {
         String query = "update producto_daniado set existencias = existencias + ? where codigo_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1308,7 +1313,8 @@ public class Conexion {
             System.out.println("Error al actualizar las existencias de los productos dañados: " + e);
         }
     }
-    public static void actualizarEstadoDevolucion(String estado, int idDevolucion){
+
+    public static void actualizarEstadoDevolucion(String estado, int idDevolucion) {
         String query = "update devoluciones set estado =? where id_devolucion =?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
@@ -1320,7 +1326,7 @@ public class Conexion {
             System.out.println("Error al actualizar el estado de la devolucion: " + e);
         }
     }
-    
+
     public static void traerDevolucionesActivasFiltradasPorTienda(int idUsuario, int tienda) {
         String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda = tub.codigo_tienda) where d.estado='ACTIVA' AND tub.codigo_usuario = ? and d.codigo_tienda=? order by(d.id_devolucion) desc;";
         try {
@@ -1333,6 +1339,51 @@ public class Conexion {
             System.out.println("Error al consultar las incidencias activas: " + e);
         }
     }
-  
+
+    //REPORTES DEL USUARIO BODEGA
+    public static void traerPedidosDadoTiendaYRangoFecha(int usuarioBod, String desde, String hasta, int tienda) {
+        String query = "select e.id_envio, e.codigo_usuario, e.codigo_tienda, e.fecha_salida, e.estado, e.costo_total_envio from envios e join tiendas_usuario_bodega tub on(e.codigo_tienda = tub.codigo_tienda) where e.codigo_usuario = ? and (e.fecha_salida>=? and e.fecha_salida<=?) and e.codigo_tienda=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuarioBod);
+            stmt.setString(2, desde);
+            stmt.setString(3, hasta);
+            stmt.setInt(4, tienda);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los envios por rango fecha y tienda: " + e);
+        }
+    }
+
+    public static void traerIncidenciasSolucionadasPorTiendaYFecha(int usuario, int tienda, String desde, String hasta) {
+        String query = "select i.id_incidencia, i.id_usuario, i.id_tienda, i.fecha, i.estado, i.solucion from incidencias i join tiendas_usuario_bodega tub on(i.id_tienda=tub.codigo_tienda) where (i.estado = 'SOLUCIONADA' or i.estado='solucionada') and tub.codigo_usuario=? and i.id_tienda=? and (i.fecha>=? and i.fecha<=?);";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuario);
+            stmt.setInt(2, tienda);
+            stmt.setString(3, desde);
+            stmt.setString(4, hasta);            
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar las devoluciones filtardas por tienda y por fecha  " + e);
+        }
+    }
+    public static void traerDevolucionesPorTiendaFechaYEstado(int usuario, int tienda, String desde, String hasta, String estado) {
+        String query="select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total, tub.codigo_usuario from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda=tub.codigo_tienda) where tub.codigo_usuario = ? and d.codigo_tienda = ? and (d.fecha_devolucion>=? and d.fecha_devolucion<=?) and d.estado=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, usuario);
+            stmt.setInt(2, tienda);
+            stmt.setString(3, desde);
+            stmt.setString(4, hasta);
+            stmt.setString(5, estado);
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar las devoluciones filtardas por tienda y por fecha  " + e);
+        }
+    }
 
 }

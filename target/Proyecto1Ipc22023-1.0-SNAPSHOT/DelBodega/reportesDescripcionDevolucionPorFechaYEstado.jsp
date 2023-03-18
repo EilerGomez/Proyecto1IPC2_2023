@@ -28,10 +28,14 @@
                         <tbody>
                             <%
                                 int idDevolucion = Integer.parseInt(request.getParameter("idDevolucion"));
+                                String estado = request.getParameter("estado");
+                                String desde = request.getParameter("desde");
+                                String hasta = request.getParameter("hasta");
+                                int tienda = Integer.parseInt(request.getParameter("tienda"));
                                 Conexion.traerProductosDeDevolucion(idDevolucion);
-                                double total=0;
+                                double total = 0;
                                 while (Conexion.rs.next()) {
-                                total = total + Double.parseDouble(Conexion.rs.getString(6));
+                                    total = total + Double.parseDouble(Conexion.rs.getString(6));
                                     total = Math.round(total * 100.0) / 100.0;
                             %>
                             <tr>
@@ -47,13 +51,13 @@
                             %>
 
                         </tbody>
-
+                        <a type="submit" class="btn btn-danger" href="tablaDevolucionesDeTiendaPorFechaYEstado.jsp?tienda=<%=tienda%>&estado=<%=estado%>&desde=<%=desde%>&hasta=<%=hasta%>">Regresar</a>
+                        <br>
                         <h3>Productos que contiene la devolucion <%=idDevolucion%></h3>
                         <h3>El total de la devolucion es: <%=total%></h3>
                     </table>
                 </div>
             </div>
-            <a type="submit" class="btn btn-danger" href="../AreaBodega.jsp">Regresar</a>
         </div>
     </body>
 </html>
