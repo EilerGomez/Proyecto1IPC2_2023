@@ -124,7 +124,7 @@
                                 <th scope="col"><%=Conexion.rs.getString(4)%></th> 
                                 <th scope="col"><%=Conexion.rs.getString(5)%></th>
                                 <td>
-                                    <a>
+                                    <a href="editarCantidadEnvio.jsp?idProducto=<%=Conexion.rs.getString(1)%>&idEnvio=<%=idEnvio%>&cantidad=<%=Conexion.rs.getString(4)%>&nombre=<%=Conexion.rs.getString(2)%>&costo=<%=Conexion.rs.getString(3)%>">
                                         <img src="https://img.icons8.com/metro/25/null/pencil.png"/>
                                     </a>
                                 </td>

@@ -26,7 +26,6 @@
                         HttpSession sesion = request.getSession();
                         int idEnvio = Integer.parseInt(sesion.getAttribute("idEnvio").toString());
                         int idIncidencia = Integer.parseInt(sesion.getAttribute("idIncidencia").toString());
-                     
 
                         double costoTotal = 0;
                         //falta un combobox para agregar los pedidos, y una tabla donde se muestren los productos del pedido actual
@@ -92,12 +91,18 @@
                                     System.out.println(idProducto);
                                     cantidadEnviada = Integer.parseInt(Conexion.rs.getString(4));
                                 }
-                                if (cantidadaAfectada <= cantidadEnviada) {
+                                if (motivo.equalsIgnoreCase("FALTANTE DE PRODUCTO")) {
                                     Conexion.guardarListaProductosIncidencia(idIncidencia, idProducto, cantidadaAfectada, motivo);
+
                                 } else {
-                                    System.out.println(cantidadaAfectada);
-                                    System.out.println(cantidadEnviada);
-                                    out.print("<div class=\"alert alert-danger\" role=\"alert\">La cantidad de producto que has ingresado ha superado el limite de la cantidad que te han enviado</div>");
+                                    if (cantidadaAfectada <= cantidadEnviada) {
+                                        Conexion.guardarListaProductosIncidencia(idIncidencia, idProducto, cantidadaAfectada, motivo);
+                                    } else {
+                                        System.out.println(cantidadaAfectada);
+                                        System.out.println(cantidadEnviada);
+                                        out.print("<div class=\"alert alert-danger\" role=\"alert\">La cantidad de producto que has ingresado ha superado el limite de la cantidad que te han enviado</div>");
+                                    }
+
                                 }
 
                             } catch (NumberFormatException e) {

@@ -888,11 +888,12 @@ public class Conexion {
     }
     //PARTES DEL REPORTE DEL USUARIO TIENDA:
 
-    public static void traerProductosMenoresAExistencia(int existencia) {
-        String query = "select pt.codigo_producto, pb.nombre_producto, pb.costo, pt.existencias from productos_tienda pt join producto_bodega pb on(pt.codigo_producto=pb.codigo_producto) where pt.existencias<?;";
+    public static void traerProductosMenoresAExistencia(int existencia, int tienda) {
+        String query = "select pt.codigo_producto, pb.nombre_producto, pb.costo, pt.existencias from productos_tienda pt join producto_bodega pb on(pt.codigo_producto=pb.codigo_producto) where pt.existencias<? and pt.codigo_tienda=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, existencia);
+            stmt.setInt(2, tienda);
             rs = stmt.executeQuery();
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
@@ -1276,6 +1277,7 @@ public class Conexion {
 
     public static void actualizarProductosTienda(int cantidad, int tienda, int producto) {
         String query = "update productos_tienda set existencias = existencias - ? where codigo_tienda =? and codigo_producto=?;";
+        System.out.println("actualizando productos tienda");
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, cantidad);
@@ -1290,6 +1292,7 @@ public class Conexion {
 
     public static void actualizarProductosBodega(int cantidad, int producto) {
         String query = "update producto_bodega set existencias = existencias + ? where codigo_producto=?;";
+        System.out.println("agregando cantidad al catalogo general");
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, cantidad);
@@ -1309,6 +1312,7 @@ public class Conexion {
             stmt.setInt(2, producto);
             stmt.executeUpdate();
             stmt.close();
+            System.out.println("actualizando productos dañados");
         } catch (Exception e) {
             System.out.println("Error al actualizar las existencias de los productos dañados: " + e);
         }
@@ -1383,6 +1387,34 @@ public class Conexion {
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
             System.out.println("Error al consultar las devoluciones filtardas por tienda y por fecha  " + e);
+        }
+    }
+    
+    //METODO DEL USUARIO ADMINISTRADOR
+    public static void verificarTiendaUsuarioBodega(int tienda){
+        String query ="select * from tiendas_usuario_bodega where codigo_tienda = ?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, tienda);           
+            rs = stmt.executeQuery();
+            //System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            System.out.println("Error al consultar la existencia de tiendausuariosBodega  " + e);
+        }
+    }
+    
+    //del usuario bodegas
+     public static void actualizarCantidadProductoEnvio(int idEnvio, int idProducto, int nuevaCantidad, double costoU) {
+        String query = "update listado_productos_envio set cantidad = ?, costo_subtotal=? where id_envio = ? and id_producto=?;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, nuevaCantidad);
+            stmt.setDouble(2, Math.round((costoU * nuevaCantidad) * 100.0) / 100.0);
+            stmt.setInt(3, idEnvio);
+            stmt.setInt(4, idProducto);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
         }
     }
 

@@ -26,7 +26,7 @@
                         <tbody>
                             <%
                                 int existencia = Integer.parseInt(request.getParameter("existencia"));
-                                Conexion.traerProductosMenoresAExistencia(existencia);
+                                Conexion.traerProductosMenoresAExistencia(existencia, Integer.parseInt(request.getSession().getAttribute("tienda").toString()));
                                 while (Conexion.rs.next()) {
                             %>
                             <tr>

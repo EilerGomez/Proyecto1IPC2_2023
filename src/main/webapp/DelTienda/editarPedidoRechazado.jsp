@@ -47,7 +47,7 @@
                             <div class="container">
                                 <input type="number" name="cantidad" class="entrada" required="requerido" value="" placeholder="Ingrese la cantidad"/>
                                 <input type="hidden" name="idPedido" value="<%=idPedido%>"/>
-                                <input type="hidden" name="mensjae" value="<%=mensaje%>"/>
+                                <input type="hidden" name="mensaje" value="<%=mensaje%>"/>
                             </div>
 
                             <div class="container-fluid">
@@ -116,7 +116,7 @@
                                     <form>
                                         <input type="hidden" name="idPedido" value="<%=idPedido%>"/>
                                         <input type="hidden" name="idProducto" value="<%=Conexion.rs.getString(1)%>"/>
-                                        <input type="hidden" name="mensjae" value="<%=mensaje%>"/>
+                                        <input type="hidden" name="mensaje" value="<%=mensaje%>"/>
                                         <button type="submit" class="btn" name="borrar"><img src="https://img.icons8.com/metro/25/null/trash.png"/></button>
                                     </form>
                                 </td>

@@ -57,9 +57,11 @@
                                 //cambiar el estado de la devolucion, guardar productos si son dañados o equivocados
                                 while (Conexion.rs.next()) {
                                     if (Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO DAÑADO") || Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO DAÃ‘ADO")) {
+                                        System.out.println("se debe guardar a productos dañados");
                                         Conexion.actualizarProductosDañados(Integer.parseInt(Conexion.rs.getString(3)), Integer.parseInt(Conexion.rs.getString(1)));
                                         Conexion.actualizarProductosTienda(Integer.parseInt(Conexion.rs.getString(3)), tienda, Integer.parseInt(Conexion.rs.getString(1)));
                                     } else if (Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO EQUIVOCADO") || Conexion.rs.getString(5).equalsIgnoreCase("SOBRANTE DE PRODUCTO") || Conexion.rs.getString(5).equalsIgnoreCase("PRODUCTO NO SOLICITADO")) {
+                                        System.out.println("se debe agregar al catalogo general");
                                         Conexion.actualizarProductosBodega(Integer.parseInt(Conexion.rs.getString(3)), Integer.parseInt(Conexion.rs.getString(1)));
                                         Conexion.actualizarProductosTienda(Integer.parseInt(Conexion.rs.getString(3)), tienda, Integer.parseInt(Conexion.rs.getString(1)));
                                     }

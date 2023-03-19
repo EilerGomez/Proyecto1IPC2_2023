@@ -52,7 +52,17 @@
             if (request.getParameter("botonAgregarTienda") != null) {
                 String codigoUsuario = request.getParameter("codigo");
                 String codigoTienda = request.getParameter("combobox");
-                Conexion.guardarTiendadeBodega(Integer.parseInt(codigoUsuario), Integer.parseInt(codigoTienda));
+                boolean existeLaTienda = false;
+                Conexion.verificarTiendaUsuarioBodega(Integer.parseInt(codigoTienda));
+                while (Conexion.rs.next()) {
+                    existeLaTienda = true;
+                }
+                if (existeLaTienda == false) {
+                    Conexion.guardarTiendadeBodega(Integer.parseInt(codigoUsuario), Integer.parseInt(codigoTienda));
+
+                } else {
+                out.print("<div class=\"alert alert-danger\" role=\"alert\">La tienda que tratas de agregarle al usuario de bodegas ya esta asignada a otro usuario de bodega</div>");
+                }
             }
 
 
