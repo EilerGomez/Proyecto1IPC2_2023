@@ -49,7 +49,7 @@
                                     <th scope="col"><%=Conexion.rs.getString(6)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(7)%></th>
                                     <td>
-                                        <a href="DelTienda/aceptarEnvio.jsp?idEnvio=<%=Conexion.rs.getString(1)%>">
+                                        <a href="DelTienda/aceptarEnvio.jsp?idEnvio=<%=Conexion.rs.getString(1)%>&idPedido=<%=Conexion.rs.getString(8)%>">
                                             <img src="https://img.icons8.com/ios-filled/25/null/visible--v1.png"/>
                                         </a>
                                     </td>

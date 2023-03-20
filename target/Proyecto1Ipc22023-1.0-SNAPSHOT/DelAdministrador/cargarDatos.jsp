@@ -11,6 +11,7 @@
     <head>
         <title>Subir un archivo</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
         <style>
             .main{
                 width: 350px;
@@ -41,17 +42,7 @@
 
     <body>
         <%
-            HttpSession sesion = request.getSession();
-
-            if (sesion.getAttribute("logueado") == null || sesion.getAttribute("logueado").equals("0")) {
-                response.sendRedirect("index.jsp");
-            }
-            if (!sesion.getAttribute("area").equals("1")) {
-                response.sendRedirect("index.jsp");
-            }
-            if (sesion.getAttribute("activo").equals("0")) {
-                response.sendRedirect("index.jsp");
-            }
+            
         %>
 
         <div class="main">

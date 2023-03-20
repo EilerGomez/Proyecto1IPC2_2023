@@ -83,7 +83,7 @@ public class servletNuevoEnvio extends HttpServlet {
             int tienda = Integer.parseInt(request.getParameter("tienda"));
             int usuario = Integer.parseInt(request.getSession().getAttribute("id").toString());
             out.println("Hola Servlet");
-            Conexion.crearNuevoEnvio(usuario, tienda, FechaFull(), 0.0);
+            Conexion.crearNuevoEnvio(usuario, tienda, FechaFull(), 0.0, Integer.parseInt(request.getParameter("idPedido")));
             out.println("envio creado");
             Conexion.traerUltimoEnvioPorUsuario(usuario);
             out.println("ultimo envio traido");

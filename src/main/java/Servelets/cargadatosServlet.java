@@ -77,8 +77,13 @@ public class cargadatosServlet extends HttpServlet {
             List<JSONObject> listaDevoluciones = (List<JSONObject>) producto.get("devoluciones");
             guardarDevolucion(listaDevoluciones);
         }
-        
-        response.sendRedirect("AreaAdministrador.jsp");
+        Conexion.actualizarArchivosEntrada();
+        try {
+            Conexion.con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.sendRedirect("index.jsp");
 
     }
 
@@ -350,6 +355,7 @@ public class cargadatosServlet extends HttpServlet {
     private void guardarEnvios(List<JSONObject> listaEnvios) {
         for (JSONObject atributos : listaEnvios) {
             int idEnvio;
+            int idPedido;
             int codigoUsuario;
             int codigoTienda;
             String fechaSalida = "0";
@@ -358,9 +364,11 @@ public class cargadatosServlet extends HttpServlet {
             double costoTotalEnvio;
 
             long id = (Long) atributos.get("id");
+            long pedido = (Long) atributos.get("pedido");
             long codUser = (Long) atributos.get("usuario");
             long codTienda = (Long) atributos.get("tienda");
             idEnvio = (int) id;
+            idPedido = (int) pedido;
             codigoUsuario = (int) codUser;
             codigoTienda = (int) codTienda;
             fechaSalida = (String) atributos.get("fechaSalida");
@@ -375,7 +383,7 @@ public class cargadatosServlet extends HttpServlet {
             }
 
             System.out.println(idEnvio + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fechaSalida + "\n" + fechaRecibido + "\n" + estado + "\n" + costoTotalEnvio);
-            Conexion.guardarEnvio(idEnvio, codigoUsuario, codigoTienda, fechaSalida, fechaRecibido, costoTotalEnvio, estado);
+            Conexion.guardarEnvio(idEnvio, codigoUsuario, codigoTienda, fechaSalida, fechaRecibido, costoTotalEnvio, estado, idPedido);
             guardarListaProductoDelEnvio(atributos, idEnvio);
         }
     }
@@ -414,6 +422,7 @@ public class cargadatosServlet extends HttpServlet {
     private void guardarIncidencias(List<JSONObject> listaIncidencia){
         for (JSONObject atributos : listaIncidencia) {
             int idIncidencia;
+            int idEnvio;
             int codigoUsuario;
             int codigoTienda;
             String fecha;
@@ -421,9 +430,11 @@ public class cargadatosServlet extends HttpServlet {
             String solucion="";
 
             long id = (Long) atributos.get("id");
+            long envio = (Long) atributos.get("envio");
             long codUser = (Long) atributos.get("usuario");
             long codTienda = (Long) atributos.get("tienda");
             idIncidencia = (int) id;
+            idEnvio = (int)envio;
             codigoUsuario = (int) codUser;
             codigoTienda = (int) codTienda;
             fecha = (String) atributos.get("fecha");
@@ -432,7 +443,7 @@ public class cargadatosServlet extends HttpServlet {
             
 
             System.out.println(idIncidencia + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + solucion + "\n" + estado);
-            Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion);
+            Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion, idEnvio);
             guardarProductosdeIncidencia(atributos,idIncidencia);
             //guardarListaProductoDelEnvio(atributos, idEnvio);
             //guardarla en La db, y guardar los productos que contenga
@@ -461,6 +472,7 @@ public class cargadatosServlet extends HttpServlet {
     private void guardarDevolucion(List<JSONObject> listaDevoluciones){
         for (JSONObject atributos : listaDevoluciones) {
             int idDevolucion;
+            int idEnvio;
             int codigoUsuario;
             int codigoTienda;
             String fecha;
@@ -468,9 +480,11 @@ public class cargadatosServlet extends HttpServlet {
             double total;
 
             long id = (Long) atributos.get("id");
+            long envio = (long) atributos.get("envio");
             long codUser = (Long) atributos.get("usuario");
             long codTienda = (Long) atributos.get("tienda");
             idDevolucion = (int) id;
+            idEnvio = (int) envio;
             codigoUsuario = (int) codUser;
             codigoTienda = (int) codTienda;
             fecha = (String) atributos.get("fecha");
@@ -483,7 +497,7 @@ public class cargadatosServlet extends HttpServlet {
             }
 
             System.out.println(idDevolucion + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + estado+ "\n" +total);
-            Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total);
+            Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total, idEnvio);
             guardarProductosDevolucion(atributos,idDevolucion);
         }
     }

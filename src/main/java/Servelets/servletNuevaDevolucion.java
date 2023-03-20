@@ -74,7 +74,7 @@ public class servletNuevaDevolucion extends HttpServlet {
                 int tienda = Integer.parseInt(sesion.getAttribute("tienda").toString());
                 if (request.getParameter("idDevolucion").equals("0")) {
 
-                    Conexion.crearDevolucion(usuario, tienda, FechaFull(), "ACTIVA", 0);
+                    Conexion.crearDevolucion(usuario, tienda, FechaFull(), "ACTIVA", 0, idEnvio);
                     Conexion.traerUltimaDevolucionPorUsuario(Integer.parseInt(sesion.getAttribute("id").toString()));
                     while (Conexion.rs.next()) {
                         out.print((Conexion.rs.getString(1)));

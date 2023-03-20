@@ -39,6 +39,7 @@
                             <%
                                 HttpSession sesion = request.getSession();
                                 int idEnvio = Integer.parseInt(request.getParameter("idEnvio"));
+                                int idPedido = Integer.parseInt(request.getParameter("idPedido"));
                                 Conexion.traerListaProductosEnvio(idEnvio);
                                 double costoTotal = 0;
                                 while (Conexion.rs.next()) {
@@ -76,6 +77,7 @@
                                 fecha = año + "-" + mes + "-" + dia;
                                 System.out.println(fecha);
                                 Conexion.actualizarEstadoEnvio(idEnvio, "RECIBIDO", fecha);
+                                Conexion.actualizarEstadoPedido(idPedido, "COMPLETADO");
                                 response.sendRedirect("../AreaTienda.jsp");
                             }
                         %>

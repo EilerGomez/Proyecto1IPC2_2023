@@ -16,6 +16,9 @@
         <title>Login</title>
     </head>
     <body>
+        <%
+
+        %>
         <div id="cuadro">
             <form method="POST" action="ServletLogin">
                 <p id="titulo"> INICIAR SESION</p>

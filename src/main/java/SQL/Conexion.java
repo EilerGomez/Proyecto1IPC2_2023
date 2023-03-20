@@ -17,6 +17,7 @@ public class Conexion {
     public static Connection con;
     public static Statement st;
     public static ResultSet rs;
+    public static String errores = "ERRORES GENERADOS EN LA ENTRADA DE ARCHIVOS:";
 
     public static void conectar() {
         String driver = "com.mysql.cj.jdbc.Driver";
@@ -30,6 +31,27 @@ public class Conexion {
             System.out.println("Conexion establecida");
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Error de conexion" + e);
+        }
+    }
+    
+    public static void traerVerificacionDeArchivos(){
+        try {
+            PreparedStatement stm = con.prepareStatement("SELECT * FROM  carga_archivos WHERE numero =1;");
+           
+            rs = stm.executeQuery();
+            //stm.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void actualizarArchivosEntrada(){
+        String query = "update carga_archivos set cargado =1 where numero =1;";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);           
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
         }
     }
 
@@ -60,6 +82,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear catalogo: " + e);
+            errores = errores + "\nNO SE HA PODIDO GUARDAR(EN CATALOGOS DE LA BODEGA) EL PRODUCTO : " + id + ", NOMBRE: " + nombreProducto + ", COSTO: " + costo + ", EXSTENCIAS: " + existencias + ", PRECIO: " + precio;
         }
     }
 
@@ -97,6 +120,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear el catalogo en la tienda: " + e);
+            errores = errores + "\nNO SE HA PODIDO GUARDAR EN EL CATÁLOGO DE LA TIENDA: " + codigoTienda + "; EL PRODUCTO: " + codigoProducto + ", EXISTENCIA: " + existencias;
         }
     }
 
@@ -110,6 +134,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear usuario: " + e);
+            errores = errores + "\nNO SE HA PODIDO GUARDAR LA TIENDA: " + codigoTienda + ", DIRECCION: " + direccion + ", TIPO: " + tipo;
         }
     }
 
@@ -127,6 +152,17 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear usuario: " + e);
+            String areaUser = "";
+            if (area == 1) {
+                areaUser = "ADMINISTRADOR";
+            } else if (area == 2) {
+                areaUser = "BODEGUERO";
+            } else if (area == 3) {
+                areaUser = "DE TIENDA";
+            } else if (area == 4) {
+                areaUser = "SUPERVISOR";
+            }
+            errores = errores + "\nNO SE HA PODIDO GUARDAR EL USUARIO: " + codigo + ", NOMBRE: " + nombre + ", USERNAME: " + userName + ", CORREO: " + correo + ", PASSWORD: " + password + ", AREA: " + areaUser + "; PUEDA SER A CAUSA DE QUE UN USUARIO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
         }
     }
 
@@ -139,6 +175,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear usuarioTienda: " + e);
+            errores = errores + "\nNO SE HA PODIDO ASIGNAR LA TIENDA: " + codigoTienda + " AL USUARIO DE TIENDA: " + codigo + "; PUEDE SER A CAUSA DE QUE LA TIENDA YA TIENE UN USUARIO DE TIENDA";
         }
     }
 
@@ -151,6 +188,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardarTienda en bodega: " + e);
+            errores = errores + "\nNO SE HA PODIDO ASIGNAR LA TIENDA: " + codigoTienda + " AL USUARIO DE BOEGAS: " + codigo + "; PUEDE SER A CAUSA DE QUE LA TIENDA YA TIENE ASIGNADO UN USAURIO DE BODEGA";
         }
     }
 
@@ -168,6 +206,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar pedido: " + e);
+            errores = errores + "\nNO SE HA PODIDO GUARDAR EL PEDIDO: " + idPedido + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fecha + ", ESTADO: " + estado + ", COSTO TOTAL: " + costoTotalPedido + "; PUEDE SER A CAUSA DE QUE UN PEDIDO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
         }
     }
 
@@ -183,11 +222,12 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos pedidos: " + e);
+            errores = errores + "\nNO SE HA PODIDO AGREGAR EN EL PEDIDO: " + idPedido + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD: " + cantidad + ", SUBTOTAL: " + subtotal + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN EL PEDIDO ANTERIORMENTE";
         }
     }
 
-    public static void guardarEnvio(int idEnvio, int codigoUsuario, int codigoTienda, String fechaSalida, String fechaRecibida, double costoTotal, String estado) {
-        String query = "INSERT INTO envios VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static void guardarEnvio(int idEnvio, int codigoUsuario, int codigoTienda, String fechaSalida, String fechaRecibida, double costoTotal, String estado, int idPedido) {
+        String query = "INSERT INTO envios VALUES (?, ?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, idEnvio);
             stmt.setInt(2, codigoUsuario);
@@ -200,10 +240,12 @@ public class Conexion {
             }
             stmt.setDouble(6, costoTotal);
             stmt.setString(7, estado);
+            stmt.setInt(8, idPedido);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar envio: " + e);
+            errores = errores + "\nNO SE HA GUADRADO EL ENVIO: " + idEnvio + ", USUARIO(BODEGA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA SALIDA: " + fechaSalida + ", FECHA RECIBIDA: " + fechaRecibida + ", TOTAL: " + costoTotal + ", ESTADO: " + estado + "; PUEDA SER QUE UN ENVIO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
         }
     }
 
@@ -219,11 +261,13 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos envio: " + e);
+            errores = errores + "\nNO SE HA PODIDO AGREGAR EN EL ENVIO: " + idEnvio + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD: " + cantidad + ", SUBTOTAL: " + subtotal + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN EL ENVIO ANTERIORMENTE";
+
         }
     }
 
-    public static void guardarIncidencia(int idIncidencia, int codigoUsuario, int codigoTienda, String fecha, String estado, String solucion) {
-        String query = "INSERT INTO incidencias VALUES (?, ?, ?, ?, ?, ?)";
+    public static void guardarIncidencia(int idIncidencia, int codigoUsuario, int codigoTienda, String fecha, String estado, String solucion, int idEnvio) {
+        String query = "INSERT INTO incidencias VALUES (?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, idIncidencia);
             stmt.setInt(2, codigoUsuario);
@@ -231,10 +275,13 @@ public class Conexion {
             stmt.setString(4, fecha);
             stmt.setString(5, estado);
             stmt.setString(6, solucion);
+            stmt.setInt(7, idEnvio);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar incidencia: " + e);
+            errores = errores + "\nNO SE HA GUADRADO LA INCIDENCIA: " + idIncidencia + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fecha + ", ESTADO: " + estado + ", SOLUCION: " + solucion + "; PUEDA SER QUE UNA INCIDENCIA CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+
         }
 
     }
@@ -250,11 +297,13 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos incidencia: " + e);
+            errores = errores + "\nNO SE HA PODIDO AGREGAR EN LA INCIDECNCIA: " + idIncidencia + "; EL PRODUCTO: " + idProducto + ", CANTIDAD: " + cantidad + ", MOTIVO: " + motivo + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN LA INCIDENCIA ANTERIORMENTE";
+
         }
     }
 
-    public static void guardarDevolucion(int idDevolucion, int codigoUsuario, int codigoTienda, String fechaDevolucion, String estado, double total) {
-        String query = "INSERT INTO devoluciones VALUES (?, ?, ?, ?, ?, ?)";
+    public static void guardarDevolucion(int idDevolucion, int codigoUsuario, int codigoTienda, String fechaDevolucion, String estado, double total, int idEnvio) {
+        String query = "INSERT INTO devoluciones VALUES (?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, idDevolucion);
             stmt.setInt(2, codigoUsuario);
@@ -262,10 +311,13 @@ public class Conexion {
             stmt.setString(4, fechaDevolucion);
             stmt.setString(5, estado);
             stmt.setDouble(6, total);
+            stmt.setInt(7, idEnvio);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar devolucion: " + e);
+            errores = errores + "\nNO SE HA GUADRADO LA DEVOLUCION: " + idDevolucion + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fechaDevolucion + ", ESTADO: " + estado + ", TOTAL: " + total + "; PUEDA SER QUE UNA DEVOLUCION CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+
         }
     }
 
@@ -282,6 +334,8 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos devolucion: " + e);
+            errores = errores + "\nNO SE HA PODIDO AGREGAR EN LA DEVOLUCION: " + idDevolucion + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD AFECTADA: " +cantidadAfectada+ ", SUBTOTAL" + subtotal  + ", MOTIVO: " + motivo + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN LA DEVOLUCION ANTERIORMENTE";
+
         }
     }
 
@@ -784,13 +838,14 @@ public class Conexion {
         }
     }
 
-    public static void crearIncidencia(int usuario, int tienda, String fecha, String estado) {
-        String query = "insert into incidencias (id_usuario, id_tienda, fecha, estado) values (?,?,?,?);";
+    public static void crearIncidencia(int usuario, int tienda, String fecha, String estado, int idEnvio) {
+        String query = "insert into incidencias (id_usuario, id_tienda, fecha, estado, id_envio) values (?,?,?,?,?);";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, usuario);
             stmt.setInt(2, tienda);
             stmt.setString(3, fecha);
             stmt.setString(4, estado);
+            stmt.setInt(5, idEnvio);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -823,14 +878,15 @@ public class Conexion {
         }
     }
 
-    public static void crearDevolucion(int codigoUsuario, int codigoTienda, String fecha, String estado, double total) {
-        String query = "insert into devoluciones (codigo_usuario, codigo_tienda, fecha_devolucion, estado, total) values (?,?,?,?,?);";
+    public static void crearDevolucion(int codigoUsuario, int codigoTienda, String fecha, String estado, double total, int idEnvio) {
+        String query = "insert into devoluciones (codigo_usuario, codigo_tienda, fecha_devolucion, estado, total, id_envio) values (?,?,?,?,?,?);";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, codigoUsuario);
             stmt.setInt(2, codigoTienda);
             stmt.setString(3, fecha);
             stmt.setString(4, estado);
             stmt.setDouble(5, total);
+            stmt.setInt(6, idEnvio);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -1099,13 +1155,14 @@ public class Conexion {
         }
     }
 
-    public static void crearNuevoEnvio(int usuario, int tienda, String fechaSalida, double costoTotal) {
-        String query = "insert into envios (codigo_usuario, codigo_tienda, fecha_salida, costo_total_envio, estado) values (?,?,?,?,'DESPACHADO');";
+    public static void crearNuevoEnvio(int usuario, int tienda, String fechaSalida, double costoTotal, int idPedido) {
+        String query = "insert into envios (codigo_usuario, codigo_tienda, fecha_salida, costo_total_envio, estado, id_pedido) values (?,?,?,?,'DESPACHADO',?);";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, usuario);
             stmt.setInt(2, tienda);
             stmt.setString(3, fechaSalida);
             stmt.setDouble(4, costoTotal);
+            stmt.setInt(5, idPedido);
             stmt.executeUpdate();
             stmt.close();
             System.out.println("envio creado");
@@ -1367,15 +1424,16 @@ public class Conexion {
             stmt.setInt(1, usuario);
             stmt.setInt(2, tienda);
             stmt.setString(3, desde);
-            stmt.setString(4, hasta);            
+            stmt.setString(4, hasta);
             rs = stmt.executeQuery();
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
             System.out.println("Error al consultar las devoluciones filtardas por tienda y por fecha  " + e);
         }
     }
+
     public static void traerDevolucionesPorTiendaFechaYEstado(int usuario, int tienda, String desde, String hasta, String estado) {
-        String query="select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total, tub.codigo_usuario from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda=tub.codigo_tienda) where tub.codigo_usuario = ? and d.codigo_tienda = ? and (d.fecha_devolucion>=? and d.fecha_devolucion<=?) and d.estado=?;";
+        String query = "select d.id_devolucion, d.codigo_usuario, d.codigo_tienda, d.fecha_devolucion, d.estado, d.total, tub.codigo_usuario from devoluciones d join tiendas_usuario_bodega tub on(d.codigo_tienda=tub.codigo_tienda) where tub.codigo_usuario = ? and d.codigo_tienda = ? and (d.fecha_devolucion>=? and d.fecha_devolucion<=?) and d.estado=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, usuario);
@@ -1389,22 +1447,22 @@ public class Conexion {
             System.out.println("Error al consultar las devoluciones filtardas por tienda y por fecha  " + e);
         }
     }
-    
+
     //METODO DEL USUARIO ADMINISTRADOR
-    public static void verificarTiendaUsuarioBodega(int tienda){
-        String query ="select * from tiendas_usuario_bodega where codigo_tienda = ?;";
+    public static void verificarTiendaUsuarioBodega(int tienda) {
+        String query = "select * from tiendas_usuario_bodega where codigo_tienda = ?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setInt(1, tienda);           
+            stmt.setInt(1, tienda);
             rs = stmt.executeQuery();
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
             System.out.println("Error al consultar la existencia de tiendausuariosBodega  " + e);
         }
     }
-    
+
     //del usuario bodegas
-     public static void actualizarCantidadProductoEnvio(int idEnvio, int idProducto, int nuevaCantidad, double costoU) {
+    public static void actualizarCantidadProductoEnvio(int idEnvio, int idProducto, int nuevaCantidad, double costoU) {
         String query = "update listado_productos_envio set cantidad = ?, costo_subtotal=? where id_envio = ? and id_producto=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);

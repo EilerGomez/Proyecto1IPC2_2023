@@ -75,7 +75,7 @@ public class servletNuevaIncidencia extends HttpServlet {
                     String mes = String.valueOf(calendario.get(Calendar.MONTH) + 1);
                     String dia = String.valueOf(calendario.get(Calendar.DAY_OF_MONTH));
                     fecha = año + "-" + mes + "-" + dia;
-                    Conexion.crearIncidencia(usuario, tienda, fecha, "ACTIVA");
+                    Conexion.crearIncidencia(usuario, tienda, fecha, "ACTIVA",idEnvio);
                     Conexion.traerUltimaIncidenciaPorUsuario(Integer.parseInt(sesion.getAttribute("id").toString()));
                     while (Conexion.rs.next()) {
                         request.getSession().setAttribute("idIncidencia", (Conexion.rs.getString(1)));
