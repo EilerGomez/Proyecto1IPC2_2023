@@ -1,4 +1,5 @@
 
+<%@page import="java.sql.ResultSet"%>
 <%@page import="SQL.Conexion"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,42 +25,47 @@
                                 <th scope="col">ESTADO RECIBIDA</th>
                                 <th scope="col">$TOTAL ENVIO</th>
                                 <th scope="col">ESTADO</th>
+                                <th scope="col">INCIDENCIAS ACTIVAS</th>
+                                <th scope="col">DEVOLUCIONES ACTIVAS</th>
                             </tr>
                         </thead>
                         <tbody>
                             <%
                                 String desde = request.getParameter("desde");
                                 String hasta = request.getParameter("hasta");
-                                int usuario = Integer.parseInt(request.getSession().getAttribute("id").toString());
+                                int tienda = Integer.parseInt(request.getSession().getAttribute("tienda").toString());
                                 int cantidadIncidencias = 0;
                                 int cantidadDevoluciones = 0;
-                                Conexion.traerCantidadIncidenciasEnXTiempo(desde, hasta, usuario, true);
-                                while (Conexion.rs.next()) {
-                                    cantidadIncidencias = Integer.parseInt(Conexion.rs.getString(1));
-                                }
-                                Conexion.traerCantidadIncidenciasEnXTiempo(desde, hasta, usuario, false);
-                                while (Conexion.rs.next()) {
-                                    cantidadDevoluciones = Integer.parseInt(Conexion.rs.getString(1));
-                                }
-                                Conexion.traerEnviosRecibidosEnIntervaloTiempo(desde, hasta, usuario);
-                                while (Conexion.rs.next()) {
+
+                                Conexion.traerEnviosRecibidosEnIntervaloTiempo(desde, hasta, tienda);
+                                ResultSet envios = Conexion.rs;
+                                while (envios.next()) {
+                                    Conexion.traerCantidadIncidenciasODevolucionesActivasDeEnvio(envios.getInt(1), true);
+                                    while (Conexion.rs.next()) {
+                                        cantidadIncidencias = Conexion.rs.getInt(1);
+                                    }
+                                    Conexion.traerCantidadIncidenciasODevolucionesActivasDeEnvio(envios.getInt(1), false);
+                                    while (Conexion.rs.next()) {
+                                        cantidadDevoluciones = Conexion.rs.getInt(1);
+                                    }
                             %>
                             <tr>
-                                <th scope="col"><%=Conexion.rs.getString(1)%></th>
-                                <th scope="col"><%=Conexion.rs.getString(2)%></th>
-                                <th scope="col"><%=Conexion.rs.getString(3)%></th>  
-                                <th scope="col"><%=Conexion.rs.getString(4)%></th>
-                                <th scope="col"><%=Conexion.rs.getString(5)%></th>
-                                <th scope="col"><%=Conexion.rs.getString(6)%></th>
-                                <th scope="col"><%=Conexion.rs.getString(7)%></th>
+                                <th scope="col"><%=envios.getString(1)%></th>
+                                <th scope="col"><%=envios.getString(2)%></th>
+                                <th scope="col"><%=envios.getString(3)%></th>  
+                                <th scope="col"><%=envios.getString(4)%></th>
+                                <th scope="col"><%=envios.getString(5)%></th>
+                                <th scope="col"><%=envios.getString(6)%></th>
+                                <th scope="col"><%=envios.getString(7)%></th>
+                                <th scope="col"><%=cantidadIncidencias%></th>
+                                <th scope="col"><%= cantidadDevoluciones%></th>
+
                             </tr>
                             <%
                                 }
                             %>
 
                         </tbody>
-                        <h3>Cantidad de incidencias desde <%=desde%> hasta <%=hasta%> es de: <%=cantidadIncidencias%></h3>
-                        <h3>Cantidad de devoluciones desde <%=desde%> hasta <%=hasta%> es de: <%=cantidadDevoluciones%></h3>
                         <h3>Envios recibidos desde <%=desde%>, hasta <%=hasta%></h3>
                     </table>
                 </div>

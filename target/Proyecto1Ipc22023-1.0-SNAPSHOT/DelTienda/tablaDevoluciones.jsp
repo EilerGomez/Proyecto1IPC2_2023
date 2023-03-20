@@ -31,6 +31,7 @@
                                     <th scope="col">FECHA</th>
                                     <th scope="col">ESTADO</th>
                                     <th scope="col">TOTAL</th>
+                                    <th scope="col">ID ENVIO</th>
                                     <th scope="col">VER</th>
                                 </tr>
                             </thead>
@@ -47,6 +48,7 @@
                                     <th scope="col"><%=Conexion.rs.getString(4)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(5)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(6)%></th>
+                                    <th scope="col"><%=Conexion.rs.getString(7)%></th>
                                     <td>
                                         <a href="DelTienda/descripcionDevolucion.jsp?idDevolucion=<%=Conexion.rs.getString(1)%>">
                                             <img src="https://img.icons8.com/ios-filled/25/null/visible--v1.png"/>

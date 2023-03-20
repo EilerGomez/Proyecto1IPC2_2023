@@ -40,6 +40,7 @@
                                 HttpSession sesion = request.getSession();
                                 int idEnvio = Integer.parseInt(request.getParameter("idEnvio"));
                                 int idPedido = Integer.parseInt(request.getParameter("idPedido"));
+                                System.out.println(idPedido + ": pedido del envio");
                                 Conexion.traerListaProductosEnvio(idEnvio);
                                 double costoTotal = 0;
                                 while (Conexion.rs.next()) {

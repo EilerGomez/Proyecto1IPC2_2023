@@ -25,12 +25,13 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                        <th scope="col">ID INCIDENCIA</th>
+                                    <th scope="col">ID INCIDENCIA</th>
                                     <th scope="col">USUARIO</th>
                                     <th scope="col">TIENDA</th>
                                     <th scope="col">FECHA</th>
                                     <th scope="col">ESTADO</th>
                                     <th scope="col">SOLUCION</th>
+                                    <th scope="col">ID ENVIO</th>
                                     <th scope="col">VER</th>
                                 </tr>
                             </thead>
@@ -47,6 +48,7 @@
                                     <th scope="col"><%=Conexion.rs.getString(4)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(5)%></th>
                                     <th scope="col"><%=Conexion.rs.getString(6)%></th>
+                                    <th scope="col"><%=Conexion.rs.getString(7)%></th>
                                     <td>
                                         <a href="DelTienda/descripcionIncidencia.jsp?idIncidencia=<%=Conexion.rs.getString(1)%>">
                                             <img src="https://img.icons8.com/ios-filled/25/null/visible--v1.png"/>

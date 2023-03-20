@@ -43,6 +43,7 @@ public class cargadatosServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         //out.print("Hola mundo");
+        Conexion.errores =   new ArrayList<>();
 
         Part filePart = request.getPart("file");
         InputStream fileStream = filePart.getInputStream();
@@ -55,7 +56,7 @@ public class cargadatosServlet extends HttpServlet {
                 Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             JSONObject producto = (JSONObject) obj;
-            
+
             List<JSONObject> listaProducto = (List<JSONObject>) producto.get("productos");
             guardarProductosBodega(listaProducto);
             List<JSONObject> listaTiendas = (List<JSONObject>) producto.get("tiendas");
@@ -77,13 +78,16 @@ public class cargadatosServlet extends HttpServlet {
             List<JSONObject> listaDevoluciones = (List<JSONObject>) producto.get("devoluciones");
             guardarDevolucion(listaDevoluciones);
         }
-        Conexion.actualizarArchivosEntrada();
-        try {
-            Conexion.con.close();
+        //Conexion.actualizarArchivosEntrada();
+        /* try {
+        //Conexion.con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        for(String errores: Conexion.errores){
+            System.out.println(errores);
         }
-        response.sendRedirect("AreaAdministrador.jsp");
+        response.sendRedirect("DelAdministrador/tablaErrores.jsp");
 
     }
 
@@ -315,7 +319,7 @@ public class cargadatosServlet extends HttpServlet {
             }
 
             System.out.println(idPedido + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + estado + "\n" + costoTotalPedido);
-            Conexion.guardarPedido(idPedido, codigoUsuario, codigoTienda, fecha, estado, costoTotalPedido,"Por defecto o por revisar");
+            Conexion.guardarPedido(idPedido, codigoUsuario, codigoTienda, fecha, estado, costoTotalPedido, "Por defecto o por revisar");
             guardarListaProductoDelPedido(atributos, idPedido);
         }
     }
@@ -418,8 +422,8 @@ public class cargadatosServlet extends HttpServlet {
             Conexion.guardarProductosEnvio(idEnvio, idProducto, costoUnitario, cantidad, subtotal);
         }
     }
-    
-    private void guardarIncidencias(List<JSONObject> listaIncidencia){
+
+    private void guardarIncidencias(List<JSONObject> listaIncidencia) {
         for (JSONObject atributos : listaIncidencia) {
             int idIncidencia;
             int idEnvio;
@@ -427,30 +431,41 @@ public class cargadatosServlet extends HttpServlet {
             int codigoTienda;
             String fecha;
             String estado;
-            String solucion="";
+            String solucion = "";
 
             long id = (Long) atributos.get("id");
             long envio = (Long) atributos.get("envio");
             long codUser = (Long) atributos.get("usuario");
             long codTienda = (Long) atributos.get("tienda");
             idIncidencia = (int) id;
-            idEnvio = (int)envio;
+            idEnvio = (int) envio;
             codigoUsuario = (int) codUser;
             codigoTienda = (int) codTienda;
             fecha = (String) atributos.get("fecha");
             estado = (String) atributos.get("estado");
-            solucion =(String) atributos.get("solucion");
-            
+            solucion = (String) atributos.get("solucion");
 
             System.out.println(idIncidencia + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + solucion + "\n" + estado);
-            Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion, idEnvio);
-            guardarProductosdeIncidencia(atributos,idIncidencia);
+            Conexion.traerEnviosPorCodigoTienda(codigoTienda);
+            try {
+                while (Conexion.rs.next()) {
+                    if (Conexion.rs.getInt(1) == idEnvio) {
+                        Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion, idEnvio);
+                        guardarProductosdeIncidencia(atributos, idIncidencia);
+                    } else {
+                        Conexion.errores.add("LA INCIDENCIA: "+idIncidencia+" NO FUE HECHA POR LA MISMA TIENDA A LA QUE SE HIZO EL ENVIO " +idEnvio);
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             //guardarListaProductoDelEnvio(atributos, idEnvio);
             //guardarla en La db, y guardar los productos que contenga
         }
     }
-    
-    private void guardarProductosdeIncidencia(JSONObject productos, int idIncidencia){
+
+    private void guardarProductosdeIncidencia(JSONObject productos, int idIncidencia) {
         System.out.println("productos:\n");
         List<JSONObject> listaProductos = (List<JSONObject>) productos.get("productos");
         for (JSONObject atributos : listaProductos) {
@@ -462,14 +477,14 @@ public class cargadatosServlet extends HttpServlet {
             motivo = (String) atributos.get("motivo");
             idProducto = (int) id;
             cantidad = (int) cant;
-            
+
             System.out.println(idProducto + "\n" + cantidad + "\n" + motivo);
             Conexion.guardarListaProductosIncidencia(idIncidencia, idProducto, cantidad, motivo);
         }
     }
-    
+
     // faltan devoluciones
-    private void guardarDevolucion(List<JSONObject> listaDevoluciones){
+    private void guardarDevolucion(List<JSONObject> listaDevoluciones) {
         for (JSONObject atributos : listaDevoluciones) {
             int idDevolucion;
             int idEnvio;
@@ -496,14 +511,26 @@ public class cargadatosServlet extends HttpServlet {
                 total = (double) ct;
             }
 
-            System.out.println(idDevolucion + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + estado+ "\n" +total);
-            Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total, idEnvio);
-            guardarProductosDevolucion(atributos,idDevolucion);
+            System.out.println(idDevolucion + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + estado + "\n" + total);
+
+            Conexion.traerEnviosPorCodigoTienda(codigoTienda);
+            try {
+                while (Conexion.rs.next()) {
+                    if (Conexion.rs.getInt(1) == idEnvio) {
+                        Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total, idEnvio);
+                        guardarProductosDevolucion(atributos, idDevolucion);
+                    }else{
+                        Conexion.errores.add("LA DEVOLUCION: "+idDevolucion + " NO FUE HECHA POR LA MISMA TIENDA A LA QUE SE HIZO EL ENVIO " + idEnvio);
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-    
-    private void guardarProductosDevolucion( JSONObject productos, int idDevolucion ){
-         System.out.println("productos:\n");
+
+    private void guardarProductosDevolucion(JSONObject productos, int idDevolucion) {
+        System.out.println("productos:\n");
         List<JSONObject> listaProductos = (List<JSONObject>) productos.get("productos");
         for (JSONObject atributos : listaProductos) {
             int idProducto;
@@ -528,9 +555,9 @@ public class cargadatosServlet extends HttpServlet {
                 long ct = (Long) atributos.get("costoTotal");
                 costoTotal = (double) ct;
             }
-            
-            System.out.println(idProducto + "\n" +costoUnitario+ "\n" + cantidad + "\n" +costoTotal+ "\n" + motivo);
-           Conexion.guardarListaProductosDevolucion(idDevolucion, idProducto, costoUnitario, cantidad, costoTotal, motivo);
+
+            System.out.println(idProducto + "\n" + costoUnitario + "\n" + cantidad + "\n" + costoTotal + "\n" + motivo);
+            Conexion.guardarListaProductosDevolucion(idDevolucion, idProducto, costoUnitario, cantidad, costoTotal, motivo);
         }
     }
 

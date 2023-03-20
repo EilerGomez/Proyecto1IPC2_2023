@@ -5,6 +5,8 @@
 package SQL;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +19,13 @@ public class Conexion {
     public static Connection con;
     public static Statement st;
     public static ResultSet rs;
-    public static String errores = "ERRORES GENERADOS EN LA ENTRADA DE ARCHIVOS:";
+    public static int linea=0;
+
+    /**
+     *
+     */
+    public static List<String> errores;
+    
 
     public static void conectar() {
         String driver = "com.mysql.cj.jdbc.Driver";
@@ -71,6 +79,7 @@ public class Conexion {
     }
 
     public static void guardarCatalogos(int id, String nombreProducto, double costo, int existencias, double precio) {
+  
         String query = "INSERT INTO producto_bodega (codigo_producto, nombre_producto, costo,existencias,precio) VALUES (?, ?, ?,?,?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -82,7 +91,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear catalogo: " + e);
-            errores = errores + "\nNO SE HA PODIDO GUARDAR(EN CATALOGOS DE LA BODEGA) EL PRODUCTO : " + id + ", NOMBRE: " + nombreProducto + ", COSTO: " + costo + ", EXSTENCIAS: " + existencias + ", PRECIO: " + precio;
+            errores.add( "NO SE HA PODIDO GUARDAR(EN CATALOGOS DE LA BODEGA) EL PRODUCTO : " + id + ", NOMBRE: " + nombreProducto + ", COSTO: " + costo + ", EXSTENCIAS: " + existencias + ", PRECIO: " + precio + "; PUEDA SER QUE YA SE HAYA GUARDADO UN PRODUCTO CON EL MISMO ID");
         }
     }
 
@@ -120,7 +129,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear el catalogo en la tienda: " + e);
-            errores = errores + "\nNO SE HA PODIDO GUARDAR EN EL CATÁLOGO DE LA TIENDA: " + codigoTienda + "; EL PRODUCTO: " + codigoProducto + ", EXISTENCIA: " + existencias;
+            errores.add("NO SE HA PODIDO GUARDAR EN EL CATÁLOGO DE LA TIENDA: " + codigoTienda + "; EL PRODUCTO: " + codigoProducto + ", EXISTENCIA: " + existencias + "; PUEDE SER QUE EL PRODUCTO NO ESTE EN EL CATALGO DE BODEGAS O QUE EL PRODUCTO YA SE HAYA GUARDADO EN LA TIENDA");
         }
     }
 
@@ -134,7 +143,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear usuario: " + e);
-            errores = errores + "\nNO SE HA PODIDO GUARDAR LA TIENDA: " + codigoTienda + ", DIRECCION: " + direccion + ", TIPO: " + tipo;
+            errores.add("NO SE HA PODIDO GUARDAR LA TIENDA: " + codigoTienda + ", DIRECCION: " + direccion + ", TIPO: " + tipo);
         }
     }
 
@@ -162,7 +171,7 @@ public class Conexion {
             } else if (area == 4) {
                 areaUser = "SUPERVISOR";
             }
-            errores = errores + "\nNO SE HA PODIDO GUARDAR EL USUARIO: " + codigo + ", NOMBRE: " + nombre + ", USERNAME: " + userName + ", CORREO: " + correo + ", PASSWORD: " + password + ", AREA: " + areaUser + "; PUEDA SER A CAUSA DE QUE UN USUARIO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+            errores.add("NO SE HA PODIDO GUARDAR EL USUARIO: " + codigo + ", NOMBRE: " + nombre + ", USERNAME: " + userName + ", CORREO: " + correo + ", PASSWORD: " + password + ", AREA: " + areaUser + "; PUEDA SER A CAUSA DE QUE UN USUARIO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE");
         }
     }
 
@@ -175,7 +184,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear usuarioTienda: " + e);
-            errores = errores + "\nNO SE HA PODIDO ASIGNAR LA TIENDA: " + codigoTienda + " AL USUARIO DE TIENDA: " + codigo + "; PUEDE SER A CAUSA DE QUE LA TIENDA YA TIENE UN USUARIO DE TIENDA";
+            errores.add("NO SE HA PODIDO ASIGNAR LA TIENDA: " + codigoTienda + " AL USUARIO DE TIENDA: " + codigo + "; PUEDE SER A CAUSA DE QUE LA TIENDA YA TIENE UN USUARIO DE TIENDA");
         }
     }
 
@@ -188,7 +197,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardarTienda en bodega: " + e);
-            errores = errores + "\nNO SE HA PODIDO ASIGNAR LA TIENDA: " + codigoTienda + " AL USUARIO DE BOEGAS: " + codigo + "; PUEDE SER A CAUSA DE QUE LA TIENDA YA TIENE ASIGNADO UN USAURIO DE BODEGA";
+            errores.add("NO SE HA PODIDO ASIGNAR LA TIENDA: " + codigoTienda + " AL USUARIO DE BOEGAS: " + codigo + "; PUEDE SER A CAUSA DE QUE LA TIENDA YA TIENE ASIGNADO UN USAURIO DE BODEGA");
         }
     }
 
@@ -206,7 +215,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar pedido: " + e);
-            errores = errores + "\nNO SE HA PODIDO GUARDAR EL PEDIDO: " + idPedido + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fecha + ", ESTADO: " + estado + ", COSTO TOTAL: " + costoTotalPedido + "; PUEDE SER A CAUSA DE QUE UN PEDIDO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+            errores.add("NO SE HA PODIDO GUARDAR EL PEDIDO: " + idPedido + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fecha + ", ESTADO: " + estado + ", COSTO TOTAL: " + costoTotalPedido + "; PUEDE SER A CAUSA DE QUE UN PEDIDO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE");
         }
     }
 
@@ -222,7 +231,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos pedidos: " + e);
-            errores = errores + "\nNO SE HA PODIDO AGREGAR EN EL PEDIDO: " + idPedido + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD: " + cantidad + ", SUBTOTAL: " + subtotal + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN EL PEDIDO ANTERIORMENTE";
+            errores.add("NO SE HA PODIDO AGREGAR EN EL PEDIDO: " + idPedido + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD: " + cantidad + ", SUBTOTAL: " + subtotal + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN EL PEDIDO ANTERIORMENTE");
         }
     }
 
@@ -245,7 +254,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar envio: " + e);
-            errores = errores + "\nNO SE HA GUADRADO EL ENVIO: " + idEnvio + ", USUARIO(BODEGA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA SALIDA: " + fechaSalida + ", FECHA RECIBIDA: " + fechaRecibida + ", TOTAL: " + costoTotal + ", ESTADO: " + estado + "; PUEDA SER QUE UN ENVIO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+            errores.add("NO SE HA GUADRADO EL ENVIO: " + idEnvio + ", USUARIO(BODEGA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA SALIDA: " + fechaSalida + ", FECHA RECIBIDA: " + fechaRecibida + ", TOTAL: " + costoTotal + ", ESTADO: " + estado + ", ID PEDIDO: " + idPedido + "; PUEDA SER QUE UN ENVIO CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE O QUE NO EXISTA UN PEDIDO CON ID: " + idPedido);
         }
     }
 
@@ -261,7 +270,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos envio: " + e);
-            errores = errores + "\nNO SE HA PODIDO AGREGAR EN EL ENVIO: " + idEnvio + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD: " + cantidad + ", SUBTOTAL: " + subtotal + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN EL ENVIO ANTERIORMENTE";
+            errores.add("NO SE HA PODIDO AGREGAR EN EL ENVIO: " + idEnvio + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD: " + cantidad + ", SUBTOTAL: " + subtotal + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN EL ENVIO ANTERIORMENTE");
 
         }
     }
@@ -280,7 +289,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar incidencia: " + e);
-            errores = errores + "\nNO SE HA GUADRADO LA INCIDENCIA: " + idIncidencia + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fecha + ", ESTADO: " + estado + ", SOLUCION: " + solucion + "; PUEDA SER QUE UNA INCIDENCIA CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+            errores.add("NO SE HA GUADRADO LA INCIDENCIA: " + idIncidencia + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fecha + ", ESTADO: " + estado + ", SOLUCION: " + solucion + "; PUEDA SER QUE UNA INCIDENCIA CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE");
 
         }
 
@@ -297,7 +306,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos incidencia: " + e);
-            errores = errores + "\nNO SE HA PODIDO AGREGAR EN LA INCIDECNCIA: " + idIncidencia + "; EL PRODUCTO: " + idProducto + ", CANTIDAD: " + cantidad + ", MOTIVO: " + motivo + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN LA INCIDENCIA ANTERIORMENTE";
+            errores.add("NO SE HA PODIDO AGREGAR EN LA INCIDECNCIA: " + idIncidencia + "; EL PRODUCTO: " + idProducto + ", CANTIDAD: " + cantidad + ", MOTIVO: " + motivo + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN LA INCIDENCIA ANTERIORMENTE");
 
         }
     }
@@ -316,7 +325,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar devolucion: " + e);
-            errores = errores + "\nNO SE HA GUADRADO LA DEVOLUCION: " + idDevolucion + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fechaDevolucion + ", ESTADO: " + estado + ", TOTAL: " + total + "; PUEDA SER QUE UNA DEVOLUCION CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE";
+            errores.add("NO SE HA GUADRADO LA DEVOLUCION: " + idDevolucion + ", USUARIO(TIENDA): " + codigoUsuario + ", TIENDA: " + codigoTienda + ", FECHA: " + fechaDevolucion + ", ESTADO: " + estado + ", TOTAL: " + total + "; PUEDA SER QUE UNA DEVOLUCION CON EL MISMO ID YA SE HAYA GUARDADO ANTERIORMENTE");
 
         }
     }
@@ -334,7 +343,7 @@ public class Conexion {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar listado de productos devolucion: " + e);
-            errores = errores + "\nNO SE HA PODIDO AGREGAR EN LA DEVOLUCION: " + idDevolucion + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD AFECTADA: " +cantidadAfectada+ ", SUBTOTAL" + subtotal  + ", MOTIVO: " + motivo + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN LA DEVOLUCION ANTERIORMENTE";
+            errores.add("NO SE HA PODIDO AGREGAR EN LA DEVOLUCION: " + idDevolucion + "; EL PRODUCTO: " + idProducto + ", COSTO UNITARIO: " + costoUnitario + ", CANTIDAD AFECTADA: " +cantidadAfectada+ ", SUBTOTAL" + subtotal  + ", MOTIVO: " + motivo + "; PUEDA SER QUE UN PRODUCTO CON EL MISMO ID SE HAYA GUARDADO EN LA DEVOLUCION ANTERIORMENTE");
 
         }
     }
@@ -972,13 +981,13 @@ public class Conexion {
         }
     }
 
-    public static void traerEnviosRecibidosEnIntervaloTiempo(String fechaDesde, String fechaHasta, int usuario) {
-        String query = "select * from envios where (estado = 'RECIBIDO' or estado ='recibido') and fecha_recibida >=? and fecha_recibida <=? and codigo_usuario =?;";
+    public static void traerEnviosRecibidosEnIntervaloTiempo(String fechaDesde, String fechaHasta, int tienda) {
+        String query = "select * from envios where (estado = 'RECIBIDO' or estado ='recibido') and fecha_recibida >=? and fecha_recibida <=? and codigo_tienda =?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, fechaDesde);
             stmt.setString(2, fechaHasta);
-            stmt.setInt(3, usuario);
+            stmt.setInt(3, tienda);
             rs = stmt.executeQuery();
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
@@ -986,19 +995,17 @@ public class Conexion {
         }
     }
 
-    public static void traerCantidadIncidenciasEnXTiempo(String fechaDesde, String fechaHasta, int usuario, boolean incidencia) {
+    public static void traerCantidadIncidenciasODevolucionesActivasDeEnvio(int idEnvio, boolean incidencia) {
         String query = "";
         if (incidencia == true) {
-            query = "select count(id_incidencia) from incidencias where fecha >=? and fecha <=? and id_usuario =?;";
+            query = "select count(i.id_incidencia) from envios e join incidencias i on(e.id_envio=i.id_envio) where i.estado = 'ACTIVA' and e.id_envio = ?;";
 
         } else {
-            query = "select count(id_devolucion) from devoluciones where fecha_devolucion >=? and fecha_devolucion <=? and codigo_usuario =?;";
+            query = "select count(d.id_devolucion) from envios e join devoluciones d on(e.id_envio=d.id_envio) where d.estado = 'ACTIVA' and e.id_envio = ?;";
         }
         try {
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setString(1, fechaDesde);
-            stmt.setString(2, fechaHasta);
-            stmt.setInt(3, usuario);
+            stmt.setInt(1, idEnvio);
             rs = stmt.executeQuery();
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
