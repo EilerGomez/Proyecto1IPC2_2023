@@ -227,7 +227,7 @@ public class Conexion {
     }
 
     public static void guardarEnvio(int idEnvio, int codigoUsuario, int codigoTienda, String fechaSalida, String fechaRecibida, double costoTotal, String estado, int idPedido) {
-        String query = "INSERT INTO envios VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO envios VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, idEnvio);
             stmt.setInt(2, codigoUsuario);

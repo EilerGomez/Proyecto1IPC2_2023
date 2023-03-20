@@ -83,7 +83,7 @@ public class cargadatosServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("AreaAdministrador.jsp");
 
     }
 
@@ -382,7 +382,7 @@ public class cargadatosServlet extends HttpServlet {
                 costoTotalEnvio = (double) tl;
             }
 
-            System.out.println(idEnvio + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fechaSalida + "\n" + fechaRecibido + "\n" + estado + "\n" + costoTotalEnvio);
+            System.out.println(idEnvio + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fechaSalida + "\n" + fechaRecibido + "\n" + estado + "\n" + costoTotalEnvio + "\n" + idPedido);
             Conexion.guardarEnvio(idEnvio, codigoUsuario, codigoTienda, fechaSalida, fechaRecibido, costoTotalEnvio, estado, idPedido);
             guardarListaProductoDelEnvio(atributos, idEnvio);
         }
