@@ -29,8 +29,8 @@ public class Conexion {
 
     public static void conectar() {
         String driver = "com.mysql.cj.jdbc.Driver";
-        String user = "root";
-        String password = "mysql";
+        String user = "proyecto1IPC2_2023";
+        String password = "eiler123";
         String url = "jdbc:mysql://localhost:3306/tienda_productos";
         try {
             Class.forName(driver);
