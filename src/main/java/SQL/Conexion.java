@@ -621,7 +621,7 @@ public class Conexion {
 
     public static void traerProductosDeTienda(int codigoTienda) {
         try {
-            PreparedStatement stmt = con.prepareStatement("select  pb.codigo_producto, pb.nombre_producto, pb.costo "
+            PreparedStatement stmt = con.prepareStatement("select  pb.codigo_producto, pb.nombre_producto, pb.costo, pt.existencias "
                     + "from productos_tienda pt join producto_bodega pb on(pb.codigo_producto = pt.codigo_producto) where pt.codigo_tienda=?;");
             stmt.setInt(1, codigoTienda);
             rs = stmt.executeQuery();
@@ -1482,5 +1482,5 @@ public class Conexion {
         } catch (Exception e) {
         }
     }
-
+    
 }

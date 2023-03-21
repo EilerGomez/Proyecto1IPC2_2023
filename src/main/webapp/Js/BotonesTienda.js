@@ -183,6 +183,21 @@
         xhr.send();        
     }
 })();
+(function(){
+    var buton = document.querySelector("#catalogoTienda");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelTienda/tablaCatalogos.jsp");
+        xhr.send();        
+    }
+})();
 
 (function(){
     var buton = document.querySelector("#tablaPedidosRechazados");

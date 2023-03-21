@@ -65,11 +65,6 @@ public class ServletTablaUsuarios extends HttpServlet {
                         + "                                         <a href=\"DelAdministrador/EditarUsuario.jsp?codigo=" + resultado.getString(1) + "&nombre=" + resultado.getString(2) + "&nombreUsuario=" + resultado.getString(3) + "&correo=" + resultado.getString(4) +  "&area=" + resultado.getString(6) + "&activo=" + resultado.getString(7) +"\">"
                         + "                                             <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAACXBIWXMAAAsTAAALEwEAmpwYAAABcUlEQVR4nL3Vv0sXcRzH8QcNTekX2iK1aIiWoE0HpybbxErUQCh0ynBpqMbcGvoDXNSxiOgfaAvSwP/AapEicmho8Wt5cfAWjsvz+/3cXb3gBXcfuPfz3vf+cbSny9jAS4z7R7qKPWThA9xqG3IaQ9gpgFqHzeAjLlXAfmGuKeQMdiPgZ1zEcIDLmdWu2XV0cAVfS7CRY2Av6kAmsY/NHrBPBdBqKmQK3UKAk2AX4vp73PetmyVIFn6PwQpY7mspkNtR1KzC7yoy67QJycLbOBsbIu/GhymQ2T4hWalmAymQOzFwWaLnUyc+JZMs/OR/QB6nQO7idw3Io9TuSoUcYlmi3hYe7hfyIBXSian/iRt4hjV8OQFyXw1NR4A3pfPXFZAlNbURQRYrzhtnkusUvkWQ8/5epEeQvFEWNNBY4U84gXO4h1f4UcgkP2ukp4W3Pih1XTe6MV9HjbVVqkP+GddjrpLWfC89xwesYDRq1rr+ADU56RJDk6BOAAAAAElFTkSuQmCC\">"
                         + "\n"
-                        //+ "                                         </a>"
-                        //+ "                                         <a href=\"JSP/Borrar.jsp?dpi=" + resultado.getString(2) + "\" class=\"ml-1\">"
-                        + "                                             <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAiklEQVR4nO2UwQmAMAxFvxfncARdUpeyJ3ETHaH0GCnEg6VisK2i5MM/lIS8pKQFrtUAMAAcAArsOOZzkmUiAAo8pkIqAJaLtZF4xzHLuWLNgu6lns4gVMjvgR4XPTUJ/R60S3omBZFeHXQZoO/oa8tApT7VNQNkkYCGDKBeAqoZdmcyP4mH+BoHbXvrXW5mYPgbAAAAAElFTkSuQmCC\">"
-                        + "\n"
-                        //+ "                                         </a>"
                         + "                                     </td>"
                         + "</tr>");
             }

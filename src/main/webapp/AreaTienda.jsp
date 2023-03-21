@@ -168,6 +168,15 @@
                             </ul>
 
                         </li>
+                        <li class="treeview">
+                            <a href="#"><span><img src="https://img.icons8.com/color/25/null/product--v1.png"/> Catalogo</span>                               
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#" id="catalogoTienda"><img src="https://img.icons8.com/color/23/null/checklist.png"/>
+                                        Productos</a></li>
+                            </ul>
+
+                        </li>
 
                     </ul>
 

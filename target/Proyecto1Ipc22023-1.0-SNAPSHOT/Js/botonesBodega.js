@@ -167,6 +167,21 @@
         xhr.send();        
     }
 })();
+(function(){
+    var buton = document.querySelector("#catalogoGeneral");
+    var divContenedor = document.getElementById("Contenido");
+    buton.addEventListener("click",obtenerHTML, true);
+    function obtenerHTML(e){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status===200){
+                divContenedor.innerHTML=xhr.responseText;
+            }
+        };
+        xhr.open("get", "DelBodega/tablaCatalogoGeneral.jsp");
+        xhr.send();        
+    }
+})();
 
 
 
