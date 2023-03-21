@@ -262,9 +262,13 @@ ON UPDATE CASCADE
 /*usuario por defecto del sistema contraseña: 1000, admin*/ 
 insert into usuarios values(1000, 'admin1', 'admin', 'correodefault','21232f297a57a5a743894a0e4a801fc3',1,1);
 insert into carga_archivos values(1,0);
-/*SELECT * FROM  carga_archivos WHERE numero =1;*/
 
-/*update carga_archivos set cargado =1 where numero =1;*/
-/*select * from usuarios where codigo_usuario=1001 and contrasenia='81dc9bdb52d04dc20036dbd8313ed055' and area=3;*/
-/*update usuarios set nombre='Eiler', nombre_usuario='admin', correo='correo.com', area=1, activo=1 where codigo_usuario=1;*/
-/*insert into envios (codigo_usuario, codigo_tienda,fecha_salida,fecha_recibida,costo_total_envio,estado) values(8,1,'2023-02-02','2023-02-28',2556.23,'RECIBIDO');*/
+/*aqui empieza el mapeo físico de la creación del nuevo usuario*/
+CREATE USER 'proyecto1IPC2_2023'@'localhost' IDENTIFIED BY 'eiler123';
+GRANT SELECT ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';
+GRANT DELETE ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';
+GRANT UPDATE ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';
+GRANT INSERT ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';
+/* EL PUERTO TIENE QUE SER: 3306*/
+
+USE tienda_productos;
