@@ -33,7 +33,7 @@
                         Conexion.traerCatalgosBodega();
                     %>
                     <nav style="text-align: center; margin-left: 70px" >
-                        <form class="d-flex" action="">
+                        <form class="d-flex" action="nuevoEnvio.jsp">
                             <label class="container-fluid">Selecciona el producto que deseas agregarle al envio <%=idEnvio%></label>
                             <div class="container-fluid py-3 mb-4 bg-secondary">
 
@@ -79,7 +79,7 @@
                                         subTotal = Math.round((costoUnitario * cantidad) * 100.0) / 100.0;
                                         Conexion.guardarProductosEnvio(idEnvio, idProducto, costoUnitario, cantidad, subTotal);
                                         Conexion.actualizarProductosEnBodega(idProducto, cantidad);
-                                        response.sendRedirect("nuevoEnvio.jsp");
+                                        //response.sendRedirect("nuevoEnvio.jsp");
                                     }
                                     out.print("<div class=\"alert alert-danger\" role=\"alert\">El producto que intentas enviar no se encuentra dentro del catalogo de la tienda:  " + tienda + " verifica eso</div>");
 
@@ -170,7 +170,7 @@
                         </tbody>
 
                     </table>
-                    <form class="d-flex">  
+                    <form class="d-flex" action="">  
                         <div>
 
                             <button class="btn btn-primary ml-2" type="submit" name="botonAceptarListadoProductos">Guardar y Salir</button>
@@ -188,6 +188,7 @@
                 System.out.println("guardando productos");
                 System.out.println(costoTotal + "----" + idEnvio);
                 response.sendRedirect("../AreaBodega.jsp");
+                //request.getRequestDispatcher("../AreaBodega.jsp").forward(request, response);
             }
         %>
 

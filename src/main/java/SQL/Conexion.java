@@ -24,7 +24,7 @@ public class Conexion {
     /**
      *
      */
-    public static List<String> errores;
+    public static List<String> errores=new ArrayList<>();
     
 
     public static void conectar() {
@@ -663,11 +663,11 @@ public class Conexion {
         }
     }
 
-    public static void traerPedidosPorCodigoUsuario(int codigoUsuario) {
-        String query = "select * from pedidos where codigo_usuario = ? order by id_pedido desc;";
+    public static void traerPedidosPorCodigoUsuario(int codigoTienda) {
+        String query = "select * from pedidos where codigo_tienda = ? order by id_pedido desc;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setInt(1, codigoUsuario);
+            stmt.setInt(1, codigoTienda);
             rs = stmt.executeQuery();
             //System.out.println(rs.getString(1));
         } catch (SQLException e) {
@@ -1029,7 +1029,7 @@ public class Conexion {
     }
 
     public static void traerDevolucionesXTiempoYEstado(String fechaDesde, String fechaHasta, String estado, int usuario) {
-        String query = "select * from devoluciones where fecha_devolucion >=? and fecha_devolucion <=? and estado=? and codigo_usuario=?;";
+        String query = "select * from devoluciones where fecha_devolucion >=? and fecha_devolucion <=? and estado=? and codigo_tienda=?;";
         try {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, fechaDesde);

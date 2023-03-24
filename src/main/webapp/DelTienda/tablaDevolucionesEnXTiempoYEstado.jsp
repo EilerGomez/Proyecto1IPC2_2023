@@ -31,7 +31,7 @@
                                 String desde = request.getParameter("desde");
                                 String hasta = request.getParameter("hasta");
                                 String estado = request.getParameter("combobox");
-                                int usuario = Integer.parseInt(request.getSession().getAttribute("id").toString());
+                                int usuario = Integer.parseInt(request.getSession().getAttribute("tienda").toString());
 
                                 Conexion.traerDevolucionesXTiempoYEstado(desde, hasta, estado, usuario);
                                 while (Conexion.rs.next()) {

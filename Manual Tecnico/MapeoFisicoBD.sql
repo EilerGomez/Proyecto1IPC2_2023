@@ -264,7 +264,7 @@ insert into usuarios values(1000, 'admin1', 'admin', 'correodefault','21232f297a
 insert into carga_archivos values(1,0);
 
 /*aqui empieza el mapeo físico de la creación del nuevo usuario*/
-CREATE USER 'proyecto1IPC2_2023'@'localhost' IDENTIFIED BY 'eiler123';
+/*CREATE USER 'proyecto1IPC2_2023'@'localhost' IDENTIFIED BY 'eiler123';*/
 GRANT SELECT ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';
 GRANT DELETE ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';
 GRANT UPDATE ON tienda_productos.* TO 'proyecto1IPC2_2023'@'localhost';

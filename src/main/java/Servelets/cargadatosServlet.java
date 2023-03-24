@@ -43,7 +43,7 @@ public class cargadatosServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         //out.print("Hola mundo");
-        Conexion.errores =   new ArrayList<>();
+        Conexion.errores = new ArrayList<>();
 
         Part filePart = request.getPart("file");
         InputStream fileStream = filePart.getInputStream();
@@ -84,7 +84,7 @@ public class cargadatosServlet extends HttpServlet {
         } catch (SQLException ex) {
         Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        for(String errores: Conexion.errores){
+        for (String errores : Conexion.errores) {
             System.out.println(errores);
         }
         response.sendRedirect("DelAdministrador/tablaErrores.jsp");
@@ -446,19 +446,21 @@ public class cargadatosServlet extends HttpServlet {
             solucion = (String) atributos.get("solucion");
 
             System.out.println(idIncidencia + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + solucion + "\n" + estado);
-            Conexion.traerEnviosPorCodigoTienda(codigoTienda);
-            try {
-                while (Conexion.rs.next()) {
-                    if (Conexion.rs.getInt(1) == idEnvio) {
-                        Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion, idEnvio);
-                        guardarProductosdeIncidencia(atributos, idIncidencia);
-                    } else {
-                        Conexion.errores.add("LA INCIDENCIA: "+idIncidencia+" NO FUE HECHA POR LA MISMA TIENDA A LA QUE SE HIZO EL ENVIO " +idEnvio);
-                    }
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            //Conexion.traerEnviosPorCodigoTienda(codigoTienda);
+            Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion, idEnvio);
+            guardarProductosdeIncidencia(atributos, idIncidencia);
+            /*try {
+            while (Conexion.rs.next()) {
+            if (Conexion.rs.getInt(1) == idEnvio) {
+            Conexion.guardarIncidencia(idIncidencia, codigoUsuario, codigoTienda, fecha, estado, solucion, idEnvio);
+            guardarProductosdeIncidencia(atributos, idIncidencia);
+            } else {
+            Conexion.errores.add("LA INCIDENCIA: "+idIncidencia+" NO FUE HECHA POR LA MISMA TIENDA A LA QUE SE HIZO EL ENVIO " +idEnvio);
             }
+            }
+            } catch (SQLException ex) {
+            Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
 
             //guardarListaProductoDelEnvio(atributos, idEnvio);
             //guardarla en La db, y guardar los productos que contenga
@@ -513,19 +515,21 @@ public class cargadatosServlet extends HttpServlet {
 
             System.out.println(idDevolucion + "\n" + codigoUsuario + "\n" + codigoTienda + "\n" + fecha + "\n" + estado + "\n" + total);
 
-            Conexion.traerEnviosPorCodigoTienda(codigoTienda);
-            try {
-                while (Conexion.rs.next()) {
-                    if (Conexion.rs.getInt(1) == idEnvio) {
-                        Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total, idEnvio);
-                        guardarProductosDevolucion(atributos, idDevolucion);
-                    }else{
-                        Conexion.errores.add("LA DEVOLUCION: "+idDevolucion + " NO FUE HECHA POR LA MISMA TIENDA A LA QUE SE HIZO EL ENVIO " + idEnvio);
-                    }
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            //Conexion.traerEnviosPorCodigoTienda(codigoTienda);
+            Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total, idEnvio);
+            guardarProductosDevolucion(atributos, idDevolucion);
+            /*try {
+            while (Conexion.rs.next()) {
+            if (Conexion.rs.getInt(1) == idEnvio) {
+            Conexion.guardarDevolucion(idDevolucion, codigoUsuario, codigoTienda, fecha, estado, total, idEnvio);
+            guardarProductosDevolucion(atributos, idDevolucion);
+            } else {
+            Conexion.errores.add("LA DEVOLUCION: " + idDevolucion + " NO FUE HECHA POR LA MISMA TIENDA A LA QUE SE HIZO EL ENVIO " + idEnvio);
             }
+            }
+            } catch (SQLException ex) {
+            Logger.getLogger(cargadatosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
         }
     }
 

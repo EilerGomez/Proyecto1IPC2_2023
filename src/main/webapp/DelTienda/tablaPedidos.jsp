@@ -36,7 +36,7 @@
                             <tbody>
 
                                 <%
-                                    Conexion.traerPedidosPorCodigoUsuario(Integer.parseInt(sesion.getAttribute("id").toString()));
+                                    Conexion.traerPedidosPorCodigoUsuario(Integer.parseInt(sesion.getAttribute("tienda").toString()));
                                     while (Conexion.rs.next()) {
                                 %>
                                 <tr>
